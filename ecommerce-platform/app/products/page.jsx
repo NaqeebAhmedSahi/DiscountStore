@@ -1,7 +1,7 @@
 // app/products/page.jsx
 "use client";
 import Header from "../components/common/Header/Header";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -135,7 +135,8 @@ const brands = ["Nike", "Adidas", "Zara", "H&M", "Michael Kors", "Casio", "Jorda
 const sizes = ["XS", "S", "M", "L", "XL", "XXL", "US 7", "US 8", "US 9", "US 10", "US 11", "US 12", "Regular", "Large", "One Size"];
 const colors = ["Black", "White", "Blue", "Red", "Brown", "Gray", "Silver", "Yellow", "Purple"];
 
-export default function ProductsPage() {
+// Products Content Component (separated to use useSearchParams)
+function ProductsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -286,8 +287,6 @@ export default function ProductsPage() {
   };
 
   return (
-    <>
-        <Header/>
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -592,6 +591,30 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading component for Suspense fallback
+function ProductsLoading() {
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main Page Component with Suspense boundary
+export default function ProductsPage() {
+  return (
+    <>
+      <Header />
+      <Suspense fallback={<ProductsLoading />}>
+        <ProductsContent />
+      </Suspense>
     </>
   );
 }
