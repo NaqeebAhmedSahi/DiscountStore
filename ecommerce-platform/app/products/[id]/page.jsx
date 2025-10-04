@@ -22,10 +22,10 @@ const mockProduct = {
     and durable rubber outsole for superior traction on all surfaces. Perfect for long-distance running, training, or everyday wear.
   `,
   images: [
-    "/images/products/shoe-detail-1.jpg",
-    "/images/products/shoe-detail-2.jpg",
-    "/images/products/shoe-detail-3.jpg",
-    "/images/products/shoe-detail-4.jpg"
+    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=800&fit=crop&crop=center",
+    "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
+    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop&crop=center",
+    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=800&fit=crop&crop=center"
   ],
   sizes: ["US 7", "US 8", "US 9", "US 10", "US 11", "US 12"],
   colors: [
@@ -65,7 +65,7 @@ const relatedProducts = [
     originalPrice: 159.99,
     category: "Shoes & Sneakers",
     brand: "Jordan",
-    image: "/images/products/shoe-2.jpg",
+    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
     rating: 4.9,
     discount: 25
   },
@@ -76,7 +76,7 @@ const relatedProducts = [
     originalPrice: 99.99,
     category: "Shoes & Sneakers",
     brand: "Skechers",
-    image: "/images/products/shoe-3.jpg",
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=800&fit=crop&crop=center",
     rating: 4.3,
     discount: 30
   },
@@ -87,7 +87,7 @@ const relatedProducts = [
     originalPrice: 139.99,
     category: "Shoes & Sneakers",
     brand: "Salomon",
-    image: "/images/products/shoe-4.jpg",
+    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
     rating: 4.7,
     discount: 32
   }

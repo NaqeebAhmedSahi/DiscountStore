@@ -11,7 +11,7 @@ const testimonials = [
     id: 1,
     name: "Sarah Johnson",
     role: "Fashion Blogger",
-    image: "/images/users/user1.jpg",
+    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
     quote:
       "This store is a game-changer! I found authentic Nike sneakers at 50% off. Super smooth checkout and delivery.",
   },
@@ -19,7 +19,7 @@ const testimonials = [
     id: 2,
     name: "David Williams",
     role: "Tech Enthusiast",
-    image: "/images/users/user2.jpg",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     quote:
       "I love the way they bring together deals from multiple brands. I scored Adidas sportswear at an unbelievable price!",
   },
@@ -27,7 +27,7 @@ const testimonials = [
     id: 3,
     name: "Emily Carter",
     role: "Student",
-    image: "/images/users/user3.jpg",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
     quote:
       "Luxury brands like Gucci and Zara on discounts? Yes please! The site design makes shopping fun and easy.",
   },

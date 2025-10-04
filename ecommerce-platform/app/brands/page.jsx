@@ -9,7 +9,7 @@ const brandsList = [
   {
     id: "nike",
     name: "Nike",
-    logo: "/images/brands/nike-logo.png",
+    logo: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop&crop=center",
     description: "World's leading athletic footwear and apparel",
     productCount: 45,
     categories: ["Shoes", "Apparel", "Equipment"],
@@ -18,7 +18,7 @@ const brandsList = [
   {
     id: "adidas",
     name: "Adidas",
-    logo: "/images/brands/adidas-logo.png",
+    logo: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200&h=200&fit=crop&crop=center",
     description: "German sportswear manufacturer known for three stripes",
     productCount: 32,
     categories: ["Shoes", "Apparel", "Accessories"],
@@ -27,7 +27,7 @@ const brandsList = [
   {
     id: "zara",
     name: "Zara",
-    logo: "/images/brands/zara-logo.png",
+    logo: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&h=200&fit=crop&crop=center",
     description: "Spanish fast fashion clothing and accessories",
     productCount: 28,
     categories: ["Clothing", "Accessories"],
@@ -36,7 +36,7 @@ const brandsList = [
   {
     id: "h&m",
     name: "H&M",
-    logo: "/images/brands/hm-logo.png",
+    logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
     description: "Swedish multinational clothing-retail company",
     productCount: 36,
     categories: ["Clothing", "Accessories", "Home"],
@@ -45,7 +45,7 @@ const brandsList = [
   {
     id: "puma",
     name: "Puma",
-    logo: "/images/brands/puma-logo.png",
+    logo: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200&h=200&fit=crop&crop=center",
     description: "German multinational corporation that designs athletic footwear",
     productCount: 24,
     categories: ["Shoes", "Apparel", "Accessories"],
@@ -54,7 +54,7 @@ const brandsList = [
   {
     id: "uniqlo",
     name: "Uniqlo",
-    logo: "/images/brands/uniqlo-logo.png",
+    logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
     description: "Japanese casual wear designer, manufacturer and retailer",
     productCount: 19,
     categories: ["Clothing", "Accessories"],

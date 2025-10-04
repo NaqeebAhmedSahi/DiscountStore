@@ -66,10 +66,16 @@ export default function Header() {
             brands
           </Link>
           <Link
-            href="/About"
+            href="/about"
             className="text-gray-700 hover:text-indigo-600 font-medium"
           >
             About
+          </Link>
+           <Link
+            href="/contact"
+            className="text-gray-700 hover:text-indigo-600 font-medium"
+          >
+            Contact
           </Link>
         </nav>
 
