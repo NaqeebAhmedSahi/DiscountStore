@@ -1,0 +1,174 @@
+{
+  "categories": [
+    {
+      "id": "shoes-sneakers",
+      "name": "Shoes & Sneakers",
+      "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop&crop=center",
+      "description": "Footwear for every occasion and style",
+      "productCount": 245,
+      "discountRange": "20-60% OFF",
+      "icon": "👟",
+      "featured": true
+    },
+    {
+      "id": "womens-fashion",
+      "name": "Women's Fashion",
+      "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop&crop=center",
+      "description": "Trendy clothing and accessories",
+      "productCount": 189,
+      "discountRange": "25-70% OFF",
+      "icon": "👚",
+      "featured": true
+    },
+    {
+      "id": "luxury-bags",
+      "name": "Luxury Bags",
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=600&fit=crop&crop=center",
+      "description": "Premium bags and accessories",
+      "productCount": 76,
+      "discountRange": "15-50% OFF",
+      "icon": "👜",
+      "featured": false
+    },
+    {
+      "id": "sportswear",
+      "name": "Sportswear",
+      "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=600&fit=crop&crop=center",
+      "description": "Performance activewear and gear",
+      "productCount": 134,
+      "discountRange": "20-45% OFF",
+      "icon": "🏃‍♀️",
+      "featured": true
+    },
+    {
+      "id": "watches",
+      "name": "Watches",
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop&crop=center",
+      "description": "Timepieces for every style",
+      "productCount": 89,
+      "discountRange": "15-40% OFF",
+      "icon": "⌚",
+      "featured": false
+    },
+    {
+      "id": "mens-clothing",
+      "name": "Men's Clothing",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=center",
+      "description": "Modern apparel for men",
+      "productCount": 156,
+      "discountRange": "20-55% OFF",
+      "icon": "👔",
+      "featured": true
+    }
+  ],
+  "brands": [
+    {
+      "id": "nike",
+      "name": "Nike",
+      "logo": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop&crop=center",
+      "cover": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1200&h=800&fit=crop&crop=center",
+      "description": "World's leading athletic footwear and apparel",
+      "productCount": 45,
+      "categories": ["Shoes", "Apparel", "Equipment"],
+      "discountRange": "20-50% OFF"
+    },
+    {
+      "id": "adidas",
+      "name": "Adidas",
+      "logo": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200&h=200&fit=crop&crop=center",
+      "cover": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&h=800&fit=crop&crop=center",
+      "description": "German sportswear manufacturer known for three stripes",
+      "productCount": 32,
+      "categories": ["Shoes", "Apparel", "Accessories"],
+      "discountRange": "15-40% OFF"
+    },
+    {
+      "id": "zara",
+      "name": "Zara",
+      "logo": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&h=200&fit=crop&crop=center",
+      "cover": "https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&h=800&fit=crop&crop=center",
+      "description": "Spanish fast fashion clothing and accessories",
+      "productCount": 28,
+      "categories": ["Clothing", "Accessories"],
+      "discountRange": "25-60% OFF"
+    },
+    {
+      "id": "h&m",
+      "name": "H&M",
+      "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
+      "cover": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=800&fit=crop&crop=center",
+      "description": "Swedish multinational clothing-retail company",
+      "productCount": 36,
+      "categories": ["Clothing", "Accessories", "Home"],
+      "discountRange": "30-70% OFF"
+    },
+    {
+      "id": "puma",
+      "name": "Puma",
+      "logo": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200&h=200&fit=crop&crop=center",
+      "cover": "https://images.unsplash.com/photo-1551232864-3f0890e580d1?w=1200&h=800&fit=crop&crop=center",
+      "description": "German multinational corporation that designs athletic footwear",
+      "productCount": 24,
+      "categories": ["Shoes", "Apparel", "Accessories"],
+      "discountRange": "20-45% OFF"
+    },
+    {
+      "id": "uniqlo",
+      "name": "Uniqlo",
+      "logo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
+      "cover": "https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&h=800&fit=crop&crop=center",
+      "description": "Japanese casual wear designer, manufacturer and retailer",
+      "productCount": 19,
+      "categories": ["Clothing", "Accessories"],
+      "discountRange": "15-35% OFF"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Premium Running Shoes",
+      "price": 89.99,
+      "originalPrice": 129.99,
+      "category": "Shoes & Sneakers",
+      "brand": "Nike",
+      "size": ["US 8", "US 9", "US 10", "US 11"],
+      "color": ["Black", "White", "Blue"],
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=800&fit=crop&crop=center",
+      "rating": 4.5,
+      "reviews": 124,
+      "isNew": true,
+      "discount": 30
+    },
+    {
+      "id": 2,
+      "name": "Designer Handbag",
+      "price": 199.99,
+      "originalPrice": 299.99,
+      "category": "Luxury Bags",
+      "brand": "Michael Kors",
+      "size": ["One Size"],
+      "color": ["Brown", "Black", "Red"],
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=800&fit=crop&crop=center",
+      "rating": 4.8,
+      "reviews": 89,
+      "isNew": false,
+      "discount": 33
+    },
+    {
+      "id": 3,
+      "name": "Sports Watch",
+      "price": 149.99,
+      "originalPrice": 199.99,
+      "category": "Watches",
+      "brand": "Casio",
+      "size": ["Regular", "Large"],
+      "color": ["Black", "Silver", "Blue"],
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop&crop=center",
+      "rating": 4.3,
+      "reviews": 67,
+      "isNew": true,
+      "discount": 25
+    }
+  ]
+}
+

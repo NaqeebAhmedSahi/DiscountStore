@@ -27,3 +27,4 @@ export default function ViewToggle({ viewMode, setViewMode }) {
     </div>
   );
 }
+

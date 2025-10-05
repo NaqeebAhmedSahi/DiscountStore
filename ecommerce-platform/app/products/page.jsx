@@ -1,6 +1,6 @@
 // app/products/page.jsx
 "use client";
-import Header from "../components/common/Header/Header";
+// import Header from "../components/common/Header/Header";
 import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -476,61 +476,48 @@ function ProductsContent() {
             {!isLoading && (
               <>
                 {currentProducts.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 [column-fill:_balance]">
                     {currentProducts.map(product => (
-                      <div
-                        key={product.id}
-                        className="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300"
-                      >
+                      <div key={product.id} className="mb-6 break-inside-avoid">
                         <Link href={`/product/${product.id}`}>
-                          <div className="relative">
+                          <div className="relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all">
                             {/* Product Image */}
-                            <div className="w-full h-48 relative">
+                            <div className="relative h-56">
                               <Image
                                 src={product.image}
                                 alt={product.name}
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                               />
-                            </div>
-                            
-                            {/* Discount Badge */}
-                            <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold">
-                              -{product.discount}%
-                            </div>
-                            
-                            {/* New Badge */}
-                            {product.isNew && (
-                              <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-sm font-bold">
-                                NEW
+                              {/* Gradient overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                              {/* Discount Badge */}
+                              <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                                -{product.discount}%
                               </div>
-                            )}
-                            
-                            {/* Quick View Overlay */}
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                              <button className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 bg-white text-black px-4 py-2 rounded-full font-semibold">
-                                Quick View
-                              </button>
+                              {/* New Badge */}
+                              {product.isNew && (
+                                <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                                  NEW
+                                </div>
+                              )}
                             </div>
-                          </div>
 
-                          {/* Product Info */}
-                          <div className="p-4">
-                            <div className="flex justify-between items-start mb-2">
-                              <h3 className="font-semibold text-gray-900 line-clamp-1">{product.name}</h3>
-                              <span className="text-yellow-500">⭐ {product.rating}</span>
-                            </div>
-                            
-                            <p className="text-gray-600 text-sm mb-2">{product.brand}</p>
-                            
-                            <div className="flex items-center gap-2 mb-3">
-                              <span className="text-lg font-bold text-gray-900">${product.price}</span>
-                              <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
-                            </div>
-                            
-                            <div className="flex justify-between items-center text-sm text-gray-500">
-                              <span>{product.reviews} reviews</span>
-                              <span className="text-green-600">In Stock</span>
+                            {/* Info */}
+                            <div className="p-4">
+                              <div className="flex items-start justify-between mb-2">
+                                <h3 className="font-semibold text-gray-900 line-clamp-2">{product.name}</h3>
+                                <span className="text-yellow-500 ml-3 whitespace-nowrap">⭐ {product.rating}</span>
+                              </div>
+                              <p className="text-gray-600 text-sm mb-2">{product.brand} • {product.category}</p>
+                              <div className="flex items-center gap-2 mb-3">
+                                <span className="text-lg font-bold text-gray-900">${product.price}</span>
+                                <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
+                              </div>
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-500">{product.reviews} reviews</span>
+                                <button className="px-3 py-1.5 rounded-full bg-yellow-400 text-black font-semibold text-xs hover:bg-yellow-500">Add to cart</button>
+                              </div>
                             </div>
                           </div>
                         </Link>
@@ -611,7 +598,7 @@ function ProductsLoading() {
 export default function ProductsPage() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Suspense fallback={<ProductsLoading />}>
         <ProductsContent />
       </Suspense>

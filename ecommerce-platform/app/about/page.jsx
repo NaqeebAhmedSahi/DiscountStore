@@ -99,13 +99,15 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white py-20">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
+        <div className="absolute -top-24 -right-24 w-[28rem] h-[28rem] bg-yellow-400/30 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-[26rem] h-[26rem] bg-pink-400/20 rounded-full blur-3xl"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Revolutionizing <span className="text-yellow-400">Online Shopping</span>
+            Revolutionizing <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-300">Online Shopping</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto">
             One platform for all your favorite brands. No more jumping between websites - 
@@ -114,11 +116,11 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/products"
-              className="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold text-lg hover:bg-yellow-500 transition-colors"
+              className="bg-gradient-to-r from-yellow-400 to-amber-400 text-black px-8 py-3 rounded-lg font-bold text-lg hover:from-yellow-500 hover:to-amber-500 transition-colors"
             >
               Start Shopping Now
             </Link>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-black transition-colors">
+            <button className="border-2 border-white/70 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-black transition-colors">
               Watch Demo
             </button>
           </div>
@@ -126,33 +128,33 @@ export default function AboutPage() {
       </section>
 
       {/* Problem Solution Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Problem Side */}
             <div>
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
                 <div className="text-4xl mb-4">😫</div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">The Traditional Hassle</h3>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center gap-3">
-                    <span className="text-red-500">✗</span>
+                    <span className="text-gray-500">✗</span>
                     Multiple websites, multiple accounts
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-red-500">✗</span>
+                    <span className="text-gray-500">✗</span>
                     Different shipping costs and times
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-red-500">✗</span>
+                    <span className="text-gray-500">✗</span>
                     Inconsistent return policies
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-red-500">✗</span>
+                    <span className="text-gray-500">✗</span>
                     No unified customer support
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-red-500">✗</span>
+                    <span className="text-gray-500">✗</span>
                     Difficult to compare products across brands
                   </li>
                 </ul>
@@ -161,28 +163,28 @@ export default function AboutPage() {
 
             {/* Solution Side */}
             <div>
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-8">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8">
                 <div className="text-4xl mb-4">🎯</div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Simple Solution</h3>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center gap-3">
-                    <span className="text-green-500">✓</span>
+                    <span className="text-yellow-600">✓</span>
                     One platform for all brands
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-green-500">✓</span>
+                    <span className="text-yellow-600">✓</span>
                     Single checkout and shipping
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-green-500">✓</span>
+                    <span className="text-yellow-600">✓</span>
                     Unified return policy
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-green-500">✓</span>
+                    <span className="text-yellow-600">✓</span>
                     Dedicated customer support
                   </li>
                   <li className="flex items-center gap-3">
-                    <span className="text-green-500">✓</span>
+                    <span className="text-yellow-600">✓</span>
                     Easy cross-brand comparison
                   </li>
                 </ul>

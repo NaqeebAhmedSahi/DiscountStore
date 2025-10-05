@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <Header />
+      {/* <Header /> */}
       
       {/* Hero Section */}
       <section className="relative">
@@ -36,6 +36,49 @@ export default function Home() {
 
       {/* Stats Section */}
       <StatsSection />
+
+      {/* What We Do / Service Description */}
+      <section className="py-16 relative">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-yellow-50/60 via-white to-pink-50/60"></div>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div className="md:col-span-2">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+                We aggregate discounts from top brands
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                DiscountStore brings together live deals, seasonal drops, and exclusive offers from
+                multiple brands in one place. Instead of hopping between sites, browse everything here:
+                compare prices, filter by category or brand, and check highlights at a glance. Our goal is
+                simple: save you time and money with a delightful shopping experience.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm">Curated deals</span>
+                <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm">Multi-brand discounts</span>
+                <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm">Smart filters</span>
+                <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm">Easy browsing</span>
+              </div>
+            </div>
+            <div className="md:col-span-1">
+              <div className="relative rounded-3xl bg-white shadow-xl border border-gray-100 p-6 overflow-hidden">
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-yellow-300/30 rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-pink-300/20 rounded-full blur-2xl"></div>
+                <div className="relative">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-2xl bg-yellow-400 text-black flex items-center justify-center font-bold">%</div>
+                    <h3 className="text-xl font-bold text-gray-900">How it works</h3>
+                  </div>
+                  <ul className="space-y-3 text-gray-700 text-sm">
+                    <li>1. We track discounts from trusted brands</li>
+                    <li>2. We categorize and highlight the best deals</li>
+                    <li>3. You explore, compare, and shop smarter</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Featured Categories with View Toggle */}
       <section className="py-16 bg-white relative overflow-hidden">
@@ -78,7 +121,7 @@ export default function Home() {
       {/* Testimonials */}
       <Testimonials />
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -162,10 +162,13 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-900 to-purple-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
+        <div className="absolute -top-24 -right-24 w-[28rem] h-[28rem] bg-yellow-400/30 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-[26rem] h-[26rem] bg-pink-400/20 rounded-full blur-3xl"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16 text-white">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Get in <span className="text-yellow-400">Touch</span>
           </h1>
@@ -181,14 +184,14 @@ export default function ContactPage() {
         <section className="mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactMethods.map((method, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+              <div key={index} className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition-shadow border border-white/50">
                 <div className="text-4xl mb-4">{method.icon}</div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{method.title}</h3>
                 <p className="text-gray-600 text-sm mb-3">{method.description}</p>
                 <p className="text-gray-900 font-semibold mb-4">{method.details}</p>
                 <a 
                   href={method.link}
-                  className="inline-block bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold text-sm hover:bg-yellow-500 transition-colors"
+                  className="inline-block bg-gradient-to-r from-yellow-400 to-amber-400 text-black px-4 py-2 rounded-lg font-semibold text-sm hover:from-yellow-500 hover:to-amber-500 transition-colors"
                 >
                   {method.buttonText}
                 </a>
@@ -200,7 +203,7 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-md p-8">
+            <div className="bg-white rounded-2xl shadow-md p-8 border border-white/50">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Send us a Message</h2>
                 <p className="text-gray-600">We typically respond within 2 hours during business hours</p>
@@ -299,7 +302,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-yellow-400 text-black font-bold py-4 rounded-lg hover:bg-yellow-500 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold py-4 rounded-lg hover:from-yellow-500 hover:to-amber-500 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -323,7 +326,7 @@ export default function ContactPage() {
             </div>
 
             {/* Departments Contact */}
-            <div className="mt-8 bg-white rounded-2xl shadow-md p-8">
+            <div className="mt-8 bg-white rounded-2xl shadow-md p-8 border border-white/50">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Contact Specific Departments</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {departments.map((dept, index) => (
@@ -352,7 +355,7 @@ export default function ContactPage() {
 
           {/* FAQ Section */}
           <div>
-            <div className="bg-white rounded-2xl shadow-md p-8 sticky top-4">
+            <div className="bg-white rounded-2xl shadow-md p-8 sticky top-4 border border-white/50">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h3>
               <div className="space-y-4">
                 {faqItems.map((faq, index) => (

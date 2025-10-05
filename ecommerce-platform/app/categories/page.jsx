@@ -1,93 +1,66 @@
 // app/categories/page.jsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const categoriesList = [
-  {
-    id: "shoes-sneakers",
-    name: "Shoes & Sneakers",
-    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=600&fit=crop&crop=center",
-    description: "Footwear for every occasion and style",
-    productCount: 245,
-    discountRange: "20-60% OFF",
-    icon: "👟",
-    featured: true,
-    gradient: "from-blue-500 to-purple-600",
-    bgPattern: "bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"
-  },
-  {
-    id: "womens-fashion",
-    name: "Women's Fashion",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop&crop=center",
-    description: "Trendy clothing and accessories",
-    productCount: 189,
-    discountRange: "25-70% OFF",
-    icon: "👚",
-    featured: true,
-    gradient: "from-pink-500 to-rose-600",
-    bgPattern: "bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"
-  },
-  {
-    id: "luxury-bags",
-    name: "Luxury Bags",
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=600&fit=crop&crop=center",
-    description: "Premium bags and accessories",
-    productCount: 76,
-    discountRange: "15-50% OFF",
-    icon: "👜",
-    featured: false,
-    gradient: "from-amber-500 to-orange-600",
-    bgPattern: "bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"
-  },
-  {
-    id: "sportswear",
-    name: "Sportswear",
-    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=600&fit=crop&crop=center",
-    description: "Performance activewear and gear",
-    productCount: 134,
-    discountRange: "20-45% OFF",
-    icon: "🏃‍♀️",
-    featured: true,
-    gradient: "from-green-500 to-emerald-600",
-    bgPattern: "bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"
-  },
-  {
-    id: "watches",
-    name: "Watches",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop&crop=center",
-    description: "Timepieces for every style",
-    productCount: 89,
-    discountRange: "15-40% OFF",
-    icon: "⌚",
-    featured: false,
-    gradient: "from-slate-500 to-gray-600",
-    bgPattern: "bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"
-  },
-  {
-    id: "mens-clothing",
-    name: "Men's Clothing",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=center",
-    description: "Modern apparel for men",
-    productCount: 156,
-    discountRange: "20-55% OFF",
-    icon: "👔",
-    featured: true,
-    gradient: "from-indigo-500 to-blue-600",
-    bgPattern: "bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"
-  }
-];
+const gradients = {
+  "shoes-sneakers": "from-blue-500 to-purple-600",
+  "womens-fashion": "from-pink-500 to-rose-600",
+  "luxury-bags": "from-amber-500 to-orange-600",
+  "sportswear": "from-green-500 to-emerald-600",
+  "watches": "from-slate-500 to-gray-600",
+  "mens-clothing": "from-indigo-500 to-blue-600"
+};
+
+const pattern = `bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]`;
 
 export default function CategoriesPage() {
+  const [categoriesList, setCategoriesList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+  const [minProducts, setMinProducts] = useState(0);
+  const [maxProducts, setMaxProducts] = useState(1000);
+  const [sortOption, setSortOption] = useState("relevance");
 
-  const filteredCategories = categoriesList.filter(category =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    category.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    fetch('/data/store.json')
+      .then(res => res.json())
+      .then(data => {
+        const withVisuals = (data.categories || []).map(cat => ({
+          ...cat,
+          gradient: gradients[cat.id] || 'from-gray-500 to-gray-700',
+          bgPattern: pattern
+        }));
+        setCategoriesList(withVisuals);
+      })
+      .catch(() => setCategoriesList([]));
+  }, []);
+
+  const filteredCategories = categoriesList
+    .filter(category =>
+      category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      category.description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter(category => (showFeaturedOnly ? category.featured : true))
+    .filter(category => category.productCount >= minProducts && category.productCount <= maxProducts)
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "products-high":
+          return b.productCount - a.productCount;
+        case "products-low":
+          return a.productCount - b.productCount;
+        case "name-az":
+          return a.name.localeCompare(b.name);
+        case "name-za":
+          return b.name.localeCompare(a.name);
+        case "relevance":
+        default:
+          return 0;
+      }
+    });
 
   const featuredCategories = categoriesList.filter(cat => cat.featured);
   const otherCategories = categoriesList.filter(cat => !cat.featured);
@@ -113,22 +86,66 @@ export default function CategoriesPage() {
           </p>
         </div>
 
-        {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-16">
+        {/* Search + Filters */}
+        <div className="max-w-5xl mx-auto mb-16">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-            <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
-              <input
-                type="text"
-                placeholder="Search categories..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-8 py-4 rounded-2xl bg-transparent focus:outline-none text-lg placeholder-gray-500"
-              />
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-purple-500 transition-colors duration-300">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-4">
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="Search categories..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-8 py-4 rounded-2xl bg-transparent focus:outline-none text-lg placeholder-gray-500 border border-gray-200"
+                  />
+                  <div className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-purple-500 transition-colors duration-300">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setShowFeaturedOnly(v => !v)}
+                    className={`px-4 py-2 rounded-xl text-sm font-medium border transition-colors ${showFeaturedOnly ? "bg-purple-600 text-white border-purple-600" : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"}`}
+                  >
+                    {showFeaturedOnly ? "Featured: On" : "Featured: Off"}
+                  </button>
+
+                  <div className="hidden md:flex items-center gap-3">
+                    <label className="text-sm text-gray-600">Min Products</label>
+                    <input
+                      type="number"
+                      min={0}
+                      value={minProducts}
+                      onChange={(e) => setMinProducts(parseInt(e.target.value || "0"))}
+                      className="w-24 px-3 py-2 rounded-lg border border-gray-200 focus:outline-none text-sm"
+                    />
+                    <label className="text-sm text-gray-600">Max Products</label>
+                    <input
+                      type="number"
+                      min={0}
+                      value={maxProducts}
+                      onChange={(e) => setMaxProducts(parseInt(e.target.value || "0"))}
+                      className="w-24 px-3 py-2 rounded-lg border border-gray-200 focus:outline-none text-sm"
+                    />
+                  </div>
+
+                  <select
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                    className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm"
+                  >
+                    <option value="relevance">Sort: Relevance</option>
+                    <option value="products-high">Products: High to Low</option>
+                    <option value="products-low">Products: Low to High</option>
+                    <option value="name-az">Name: A → Z</option>
+                    <option value="name-za">Name: Z → A</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
