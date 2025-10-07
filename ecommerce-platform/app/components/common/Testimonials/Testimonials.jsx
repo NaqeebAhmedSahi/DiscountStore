@@ -3,37 +3,19 @@
 
 import Slider from "react-slick";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    role: "Fashion Blogger",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-    quote:
-      "This store is a game-changer! I found authentic Nike sneakers at 50% off. Super smooth checkout and delivery.",
-  },
-  {
-    id: 2,
-    name: "David Williams",
-    role: "Tech Enthusiast",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    quote:
-      "I love the way they bring together deals from multiple brands. I scored Adidas sportswear at an unbelievable price!",
-  },
-  {
-    id: 3,
-    name: "Emily Carter",
-    role: "Student",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    quote:
-      "Luxury brands like Gucci and Zara on discounts? Yes please! The site design makes shopping fun and easy.",
-  },
-];
-
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    fetch('/data/store.json')
+      .then(res => res.json())
+      .then(data => setTestimonials(data.testimonials || []))
+      .catch(() => setTestimonials([]));
+  }, []);
   const settings = {
     dots: true,
     infinite: true,

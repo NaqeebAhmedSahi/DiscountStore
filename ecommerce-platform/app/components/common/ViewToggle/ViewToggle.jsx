@@ -14,6 +14,7 @@ export default function ViewToggle({ viewMode, setViewMode }) {
         <button
           key={view.id}
           onClick={() => setViewMode(view.id)}
+          suppressHydrationWarning
           className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
             viewMode === view.id
               ? 'bg-white text-purple-600 shadow-md'
@@ -27,4 +28,3 @@ export default function ViewToggle({ viewMode, setViewMode }) {
     </div>
   );
 }
-

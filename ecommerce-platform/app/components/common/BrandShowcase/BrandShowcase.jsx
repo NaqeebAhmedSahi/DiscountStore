@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Slider from "react-slick";
 import Image from "next/image";
 import "slick-carousel/slick/slick.css";
@@ -140,8 +141,11 @@ function NextArrow({ onClick }) {
 }
 
 export default function BrandShowcase() {
+  const router = useRouter();
   const [selectedBrand, setSelectedBrand] = useState(brands[0]);
   const [viewMode, setViewMode] = useState('grid'); // 'grid', 'carousel', 'masonry'
+
+  const toSlug = (text) => (text || "").toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   const settings = {
     dots: true,
@@ -216,7 +220,10 @@ export default function BrandShowcase() {
             </div>
 
             {/* CTA Button */}
-            <button className={`w-full py-3 bg-gradient-to-r ${brand.color} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
+            <button
+              onClick={() => router.push(`/brands/${toSlug(brand.name)}`)}
+              className={`w-full py-3 bg-gradient-to-r ${brand.color} text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+            >
               Shop {brand.name}
             </button>
           </div>
@@ -268,7 +275,10 @@ export default function BrandShowcase() {
                 </span>
               </div>
 
-              <button className={`px-8 py-4 bg-white text-gray-900 font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105`}>
+              <button
+                onClick={() => router.push(`/brands/${toSlug(brand.name)}`)}
+                className={`px-8 py-4 bg-white text-gray-900 font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105`}
+              >
                 Shop {brand.name} Now
               </button>
             </div>
@@ -389,7 +399,10 @@ export default function BrandShowcase() {
                   <div className="text-sm text-gray-400">Discount</div>
                 </div>
               </div>
-              <button className={`px-8 py-4 bg-gradient-to-r ${selectedBrand.color} text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105`}>
+              <button
+                onClick={() => router.push(`/brands/${toSlug(selectedBrand.name)}`)}
+                className={`px-8 py-4 bg-gradient-to-r ${selectedBrand.color} text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105`}
+              >
                 Explore {selectedBrand.name} Collection
               </button>
             </div>

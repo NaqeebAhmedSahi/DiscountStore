@@ -2,11 +2,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingCart, User, Search, Menu } from "lucide-react";
 
-// Simple Button component (local to this file)
+// Custom Button with client-side detection
 function Button({ children, onClick, variant = "ghost", size = "icon" }) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const baseStyles =
     "flex items-center justify-center rounded-2xl transition-colors focus:outline-none";
 
@@ -21,6 +27,15 @@ function Button({ children, onClick, variant = "ghost", size = "icon" }) {
     md: "px-4 py-2 text-base",
   };
 
+  // During SSR, render a div that matches the button structure
+  if (!isClient) {
+    return (
+      <div className={`${baseStyles} ${variants[variant]} ${sizes[size]}`}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <button
       onClick={onClick}
@@ -33,6 +48,11 @@ function Button({ children, onClick, variant = "ghost", size = "icon" }) {
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
@@ -63,7 +83,7 @@ export default function Header() {
             href="/brands"
             className="text-gray-700 hover:text-indigo-600 font-medium"
           >
-            brands
+            Brands
           </Link>
           <Link
             href="/partners"
@@ -77,7 +97,7 @@ export default function Header() {
           >
             About
           </Link>
-           <Link
+          <Link
             href="/contact"
             className="text-gray-700 hover:text-indigo-600 font-medium"
           >
@@ -98,12 +118,18 @@ export default function Header() {
           </Button>
 
           {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-800 hover:text-indigo-600"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+          {!isClient ? (
+            <div className="md:hidden text-gray-800 hover:text-indigo-600">
+              <Menu className="w-6 h-6" />
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden text-gray-800 hover:text-indigo-600"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -123,10 +149,10 @@ export default function Header() {
             Categories
           </Link>
           <Link
-            href="/deals"
+            href="/brands"
             className="block text-gray-700 hover:text-indigo-600 font-medium"
           >
-            Deals
+            Brands
           </Link>
           <Link
             href="/partners"
@@ -139,6 +165,12 @@ export default function Header() {
             className="block text-gray-700 hover:text-indigo-600 font-medium"
           >
             About
+          </Link>
+          <Link
+            href="/contact"
+            className="block text-gray-700 hover:text-indigo-600 font-medium"
+          >
+            Contact
           </Link>
         </div>
       )}

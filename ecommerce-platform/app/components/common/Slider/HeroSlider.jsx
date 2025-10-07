@@ -5,41 +5,8 @@ import Slider from "react-slick";
 import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const offers = [
-  {
-    id: 1,
-    brand: "Nike",
-    discount: "50% OFF",
-    category: "Shoes & Sneakers",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&h=1080&fit=crop&crop=center",
-    button: "Shop Now",
-  },
-  {
-    id: 2,
-    brand: "Zara",
-    discount: "70% OFF",
-    category: "Women's Dresses",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=1080&fit=crop&crop=center",
-    button: "Grab Deal",
-  },
-  {
-    id: 3,
-    brand: "Adidas",
-    discount: "40% OFF",
-    category: "Sportswear",
-    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=1920&h=1080&fit=crop&crop=center",
-    button: "Explore Now",
-  },
-  {
-    id: 4,
-    brand: "Gucci",
-    discount: "30% OFF",
-    category: "Luxury Bags",
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1920&h=1080&fit=crop&crop=center",
-    button: "See Offer",
-  },
-];
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 // Custom Prev Arrow
 function PrevArrow(props) {
@@ -72,6 +39,14 @@ function NextArrow(props) {
 }
 
 export default function DiscountSlider() {
+  const [offers, setOffers] = useState([]);
+
+  useEffect(() => {
+    fetch('/data/store.json')
+      .then(res => res.json())
+      .then(data => setOffers(data.heroOffers || []))
+      .catch(() => setOffers([]));
+  }, []);
   const settings = {
     dots: true,
     infinite: true,
@@ -102,7 +77,7 @@ export default function DiscountSlider() {
       
       <Slider {...settings} className="h-full">
         {offers.map((offer) => (
-          <div key={offer.id} className="relative w-full h-[450px] md:h-[600px]">
+          <Link key={offer.id} href={offer.brand ? `/brands/${offer.brand.toLowerCase()}` : "/products"} className="relative w-full h-[450px] md:h-[600px] block">
             {/* Background Image */}
             <Image
               src={offer.image}
@@ -131,18 +106,18 @@ export default function DiscountSlider() {
                 <p className="text-lg md:text-2xl font-medium mb-8 animate-fadeIn delay-300 text-gray-100 drop-shadow-lg">
                   {offer.category}
                 </p>
-                <button className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 rounded-full 
+                <span className="inline-block px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 rounded-full 
                                    font-bold text-lg text-black shadow-2xl transition-all duration-300 animate-fadeIn delay-500 cursor-pointer
                                    transform hover:scale-105 hover:shadow-3xl animate-pulse-glow">
                   {offer.button}
-                </button>
+                </span>
               </div>
             </div>
 
             {/* Decorative Elements */}
             <div className="absolute top-1/4 left-8 w-2 h-32 bg-gradient-to-b from-yellow-400 to-transparent opacity-60 animate-pulse"></div>
             <div className="absolute bottom-1/4 right-8 w-2 h-24 bg-gradient-to-t from-red-400 to-transparent opacity-60 animate-pulse delay-300"></div>
-          </div>
+          </Link>
         ))}
       </Slider>
     </div>
