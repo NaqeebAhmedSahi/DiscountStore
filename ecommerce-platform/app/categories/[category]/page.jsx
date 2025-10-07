@@ -6,209 +6,18 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-// Mock category data
-const categoriesData = {
-  "shoes-sneakers": {
-    id: "shoes-sneakers",
-    name: "Shoes & Sneakers",
-    banner: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=1920&h=600&fit=crop&crop=center",
-    description: "Step up your style with our premium footwear collection",
-    longDescription: "Discover the perfect pair for every occasion. From running shoes to casual sneakers, formal footwear to athletic performance, our curated collection features the latest styles from top brands at unbeatable prices.",
-    icon: "👟",
-    featuredBrands: ["Nike", "Adidas", "Jordan", "Puma", "New Balance"],
-    subcategories: ["Running", "Basketball", "Casual", "Formal", "Sports", "Sandals"],
-    popularSizes: ["US 8", "US 9", "US 10", "US 11", "US 12"],
-    careTips: ["Use shoe trees to maintain shape", "Clean with appropriate products", "Rotate between pairs for longevity"]
-  },
-  "womens-fashion": {
-    id: "womens-fashion",
-    name: "Women's Fashion",
-    banner: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=600&fit=crop&crop=center",
-    description: "Express your style with trendy women's clothing",
-    longDescription: "Explore our extensive collection of women's fashion featuring the latest trends in dresses, tops, bottoms, and accessories. From casual everyday wear to elegant evening outfits, find pieces that reflect your unique personality.",
-    icon: "👚",
-    featuredBrands: ["Zara", "H&M", "Forever 21", "Mango", "Uniqlo"],
-    subcategories: ["Dresses", "Tops", "Bottoms", "Outerwear", "Activewear", "Accessories"],
-    popularSizes: ["S", "M", "L", "XL"],
-    careTips: ["Follow washing instructions carefully", "Store properly to maintain shape", "Use gentle detergents for delicate fabrics"]
-  },
-  "luxury-bags": {
-    id: "luxury-bags",
-    name: "Luxury Bags",
-    banner: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1920&h=600&fit=crop&crop=center",
-    description: "Elevate your style with premium luxury bags",
-    longDescription: "Indulge in our exquisite collection of luxury bags from renowned designers. From handbags to backpacks, clutches to totes, each piece combines superior craftsmanship with timeless elegance.",
-    icon: "👜",
-    featuredBrands: ["Michael Kors", "Coach", "Kate Spade", "Fossil", "Guess"],
-    subcategories: ["Handbags", "Backpacks", "Clutches", "Totes", "Crossbody", "Travel"],
-    popularSizes: ["Small", "Medium", "Large", "One Size"],
-    careTips: ["Store in dust bags when not in use", "Avoid overloading to maintain shape", "Clean with specialized leather products"]
-  },
-  "sportswear": {
-    id: "sportswear",
-    name: "Sportswear",
-    banner: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=1920&h=600&fit=crop&crop=center",
-    description: "Performance gear for active lifestyles",
-    longDescription: "Achieve your fitness goals with our high-performance sportswear collection. Designed for comfort, mobility, and style, our activewear features advanced technologies to enhance your workout experience.",
-    icon: "🏃‍♀️",
-    featuredBrands: ["Nike", "Adidas", "Under Armour", "Lululemon", "Reebok"],
-    subcategories: ["Training", "Running", "Yoga", "Gym", "Outdoor", "Swim"],
-    popularSizes: ["S", "M", "L", "XL", "XXL"],
-    careTips: ["Wash after each use", "Use mild detergents", "Avoid fabric softeners", "Air dry when possible"]
-  },
-  "watches": {
-    id: "watches",
-    name: "Watches",
-    banner: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1920&h=600&fit=crop&crop=center",
-    description: "Timeless elegance for every wrist",
-    longDescription: "Discover our curated selection of watches that blend precision engineering with sophisticated design. From classic analog to smart watches, find the perfect timepiece to complement your style.",
-    icon: "⌚",
-    featuredBrands: ["Casio", "Fossil", "Seiko", "Citizen", "Timex"],
-    subcategories: ["Analog", "Digital", "Smart", "Sports", "Luxury", "Chronograph"],
-    popularSizes: ["38mm", "40mm", "42mm", "44mm", "Adjustable"],
-    careTips: ["Avoid water exposure unless waterproof", "Clean with soft cloth", "Service regularly", "Store in watch boxes"]
-  },
-  "mens-clothing": {
-    id: "mens-clothing",
-    name: "Men's Clothing",
-    banner: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=600&fit=crop&crop=center",
-    description: "Modern styles for the contemporary man",
-    longDescription: "Upgrade your wardrobe with our collection of men's clothing that combines style, comfort, and quality. From formal wear to casual essentials, find pieces that work for every occasion.",
-    icon: "👔",
-    featuredBrands: ["H&M", "Uniqlo", "Tommy Hilfiger", "Calvin Klein", "Levi's"],
-    subcategories: ["Shirts", "Pants", "Outerwear", "Activewear", "Formal", "Accessories"],
-    popularSizes: ["S", "M", "L", "XL", "XXL"],
-    careTips: ["Iron at appropriate temperatures", "Follow care labels", "Store on hangers when possible"]
+// Function to fetch store data
+const fetchStoreData = async () => {
+  try {
+    const response = await fetch('/data/store.json');
+    if (!response.ok) {
+      throw new Error('Failed to fetch store data');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching store data:', error);
+    return null;
   }
-};
-
-// Mock products by category
-const categoryProducts = {
-  "shoes-sneakers": [
-    {
-      id: 1,
-      name: "Nike Air Max 270",
-      price: 149.99,
-      originalPrice: 189.99,
-      brand: "Nike",
-      subcategory: "Running",
-      size: ["US 8", "US 9", "US 10", "US 11", "US 12"],
-      color: ["Black", "White", "Blue", "Red"],
-      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=800&fit=crop&crop=center",
-      rating: 4.7,
-      reviews: 289,
-      discount: 21,
-      features: ["Air Cushioning", "Breathable Mesh", "Lightweight"],
-      gender: ["Men", "Women"],
-      activity: ["Running", "Walking", "Training"]
-    },
-    {
-      id: 2,
-      name: "Adidas Ultraboost 22",
-      price: 179.99,
-      originalPrice: 219.99,
-      brand: "Adidas",
-      subcategory: "Running",
-      size: ["US 8", "US 9", "US 10", "US 11"],
-      color: ["Black", "White", "Solar Red"],
-      image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
-      rating: 4.6,
-      reviews: 198,
-      discount: 18,
-      features: ["Boost Technology", "Primeknit Upper", "Continental Rubber"],
-      gender: ["Men", "Women"],
-      activity: ["Running", "Walking"]
-    },
-    {
-      id: 3,
-      name: "Jordan Air 1",
-      price: 129.99,
-      originalPrice: 159.99,
-      brand: "Jordan",
-      subcategory: "Casual",
-      size: ["US 7", "US 8", "US 9", "US 10", "US 11", "US 12"],
-      color: ["Black/Red", "White/Black", "Chicago"],
-      image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
-      rating: 4.8,
-      reviews: 432,
-      discount: 19,
-      features: ["Air-Sole Unit", "Leather Upper", "Iconic Design"],
-      gender: ["Men", "Women"],
-      activity: ["Casual", "Lifestyle"]
-    },
-    {
-      id: 4,
-      name: "Puma RS-X",
-      price: 99.99,
-      originalPrice: 129.99,
-      brand: "Puma",
-      subcategory: "Casual",
-      size: ["US 8", "US 9", "US 10", "US 11"],
-      color: ["White", "Black", "Blue", "Green"],
-      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=800&fit=crop&crop=center",
-      rating: 4.4,
-      reviews: 156,
-      discount: 23,
-      features: ["RS Cushioning", "Chunky Design", "Comfortable"],
-      gender: ["Men", "Women"],
-      activity: ["Casual", "Walking"]
-    },
-    {
-      id: 5,
-      name: "New Balance 574",
-      price: 89.99,
-      originalPrice: 119.99,
-      brand: "New Balance",
-      subcategory: "Sports",
-      size: ["US 8", "US 9", "US 10", "US 11", "US 12"],
-      color: ["Gray", "Navy", "Maroon"],
-      image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
-      rating: 4.5,
-      reviews: 267,
-      discount: 25,
-      features: ["ENCAP Technology", "Suede Upper", "Durable"],
-      gender: ["Men", "Women"],
-      activity: ["Walking", "Casual", "Light Sports"]
-    },
-    {
-      id: 6,
-      name: "Formal Leather Oxford",
-      price: 199.99,
-      originalPrice: 259.99,
-      brand: "Cole Haan",
-      subcategory: "Formal",
-      size: ["US 8", "US 9", "US 10", "US 11"],
-      color: ["Black", "Brown", "Oxblood"],
-      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&h=800&fit=crop&crop=center",
-      rating: 4.6,
-      reviews: 89,
-      discount: 23,
-      features: ["Genuine Leather", "Goodyear Welt", "Comfort Insole"],
-      gender: ["Men"],
-      activity: ["Formal", "Business"]
-    }
-  ],
-  "womens-fashion": [
-    {
-      id: 7,
-      name: "Summer Floral Dress",
-      price: 49.99,
-      originalPrice: 79.99,
-      brand: "Zara",
-      subcategory: "Dresses",
-      size: ["XS", "S", "M", "L", "XL"],
-      color: ["Floral", "Blue", "Pink", "Yellow"],
-      image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&h=800&fit=crop&crop=center",
-      rating: 4.5,
-      reviews: 156,
-      discount: 38,
-      features: ["Cotton Blend", "A-Line Cut", "Knee Length"],
-      gender: ["Women"],
-      season: ["Spring", "Summer"],
-      occasion: ["Casual", "Party", "Beach"]
-    }
-    // ... more products for other categories
-  ]
 };
 
 export default function CategoryPage() {
@@ -232,13 +41,23 @@ export default function CategoryPage() {
   
   // Get unique filter options from products
   const filterOptions = useMemo(() => {
-    if (!products.length) return {};
+    if (!products.length) {
+      return { 
+        brands: [], 
+        sizes: [], 
+        colors: [], 
+        subcategories: [], 
+        genders: [], 
+        activities: [], 
+        features: [] 
+      };
+    }
     
     const brands = [...new Set(products.map(p => p.brand))];
-    const sizes = [...new Set(products.flatMap(p => p.size))];
-    const colors = [...new Set(products.flatMap(p => p.color))];
-    const subcategories = [...new Set(products.map(p => p.subcategory))];
-    const genders = [...new Set(products.flatMap(p => p.gender))];
+    const sizes = [...new Set(products.flatMap(p => p.size || []))];
+    const colors = [...new Set(products.flatMap(p => p.color || []))];
+    const subcategories = [...new Set(products.map(p => p.subcategory).filter(Boolean))];
+    const genders = [...new Set(products.flatMap(p => p.gender || []))];
     const activities = [...new Set(products.flatMap(p => p.activity || []))];
     const features = [...new Set(products.flatMap(p => p.features || []))];
     
@@ -247,18 +66,41 @@ export default function CategoryPage() {
 
   // Load category data
   useEffect(() => {
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      const categoryData = categoriesData[categoryId];
-      const categoryProductsData = categoryProducts[categoryId] || [];
+    const loadCategoryData = async () => {
+      setIsLoading(true);
       
-      setCategory(categoryData);
-      setProducts(categoryProductsData);
-      setFilteredProducts(categoryProductsData);
-      setIsLoading(false);
-    }, 500);
+      try {
+        const storeData = await fetchStoreData();
+        
+        if (storeData) {
+          // Find category data
+          const categoryData = storeData.categories.find(cat => cat.id === categoryId);
+          
+          // Filter products by category - match by category name or id
+          const categoryProductsData = storeData.products.filter(product => 
+            product.category === categoryData?.name || product.category === categoryId
+          );
+          
+          setCategory(categoryData);
+          setProducts(categoryProductsData);
+          setFilteredProducts(categoryProductsData);
+        } else {
+          // Fallback if data fetch fails
+          setCategory(null);
+          setProducts([]);
+          setFilteredProducts([]);
+        }
+      } catch (error) {
+        console.error('Error loading category data:', error);
+        setCategory(null);
+        setProducts([]);
+        setFilteredProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadCategoryData();
   }, [categoryId]);
 
   // Apply filters
@@ -269,7 +111,7 @@ export default function CategoryPage() {
     
     // Subcategory filter
     if (selectedSubcategory !== "all") {
-      result = result.filter(product => product.subcategory === selectedSubcategory);
+      result = result.filter(product => product.subcategory && product.subcategory === selectedSubcategory);
     }
     
     // Brand filter
@@ -280,20 +122,22 @@ export default function CategoryPage() {
     // Size filter
     if (selectedSizes.length > 0) {
       result = result.filter(product => 
-        product.size.some(size => selectedSizes.includes(size))
+        product.size && product.size.some(size => selectedSizes.includes(size))
       );
     }
     
     // Color filter
     if (selectedColors.length > 0) {
       result = result.filter(product => 
-        product.color.some(color => selectedColors.includes(color))
+        product.color && product.color.some(color => selectedColors.includes(color))
       );
     }
     
     // Gender filter
     if (selectedGender !== "all") {
-      result = result.filter(product => product.gender.includes(selectedGender));
+      result = result.filter(product => 
+        product.gender && product.gender.includes(selectedGender)
+      );
     }
     
     // Activity filter
@@ -474,7 +318,7 @@ export default function CategoryPage() {
                     />
                     <span className="ml-2 text-gray-700">All {category.name}</span>
                   </label>
-                  {category.subcategories.map(subcat => (
+                  {category.subcategories && category.subcategories.map(subcat => (
                     <label key={subcat} className="flex items-center">
                       <input
                         type="radio"
@@ -710,9 +554,11 @@ export default function CategoryPage() {
                         </div>
                         
                         {/* Subcategory Badge */}
-                        <div className="absolute top-3 right-3 bg-black bg-opacity-70 text-white px-2 py-1 rounded-full text-xs">
-                          {product.subcategory}
-                        </div>
+                        {product.subcategory && (
+                          <div className="absolute top-3 right-3 bg-black bg-opacity-70 text-white px-2 py-1 rounded-full text-xs">
+                            {product.subcategory}
+                          </div>
+                        )}
                       </div>
 
                       {/* Product Info */}
@@ -721,13 +567,15 @@ export default function CategoryPage() {
                         <p className="text-gray-600 text-sm mb-2">{product.brand}</p>
                         
                         {/* Features Tags */}
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {product.features.slice(0, 2).map(feature => (
-                            <span key={feature} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
+                        {product.features && product.features.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {product.features.slice(0, 2).map(feature => (
+                              <span key={feature} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                         
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">

@@ -66,6 +66,12 @@ export default function Header() {
             brands
           </Link>
           <Link
+            href="/partners"
+            className="text-gray-700 hover:text-indigo-600 font-medium"
+          >
+            Partner with Us
+          </Link>
+          <Link
             href="/about"
             className="text-gray-700 hover:text-indigo-600 font-medium"
           >
@@ -121,6 +127,12 @@ export default function Header() {
             className="block text-gray-700 hover:text-indigo-600 font-medium"
           >
             Deals
+          </Link>
+          <Link
+            href="/partners"
+            className="block text-gray-700 hover:text-indigo-600 font-medium"
+          >
+            Partner with Us
           </Link>
           <Link
             href="/about"

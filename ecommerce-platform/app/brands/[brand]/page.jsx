@@ -6,205 +6,18 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-// Mock brand data
-const brandsData = {
-  nike: {
-    id: "nike",
-    name: "Nike",
-    logo: "/images/brands/nike-logo.png",
-    banner: "/images/brands/nike-banner.jpg",
-    description: "Just Do It. Nike is the world's leading athletic footwear, apparel, and equipment company.",
-    fullDescription: "Since 1964, Nike has been synonymous with innovation, quality, and performance. From professional athletes to everyday fitness enthusiasts, Nike provides the tools and inspiration to help people achieve their goals. With groundbreaking technologies like Air Max, Flyknit, and Dri-FIT, Nike continues to push the boundaries of what's possible in sportswear.",
-    founded: 1964,
-    headquarters: "Beaverton, Oregon, USA",
-    category: "Sportswear, Footwear, Equipment",
-    website: "https://nike.com",
-    socialMedia: {
-      instagram: "nike",
-      twitter: "Nike",
-      facebook: "nike"
+// Function to fetch store data
+const fetchStoreData = async () => {
+  try {
+    const response = await fetch('/data/store.json');
+    if (!response.ok) {
+      throw new Error('Failed to fetch store data');
     }
-  },
-  adidas: {
-    id: "adidas",
-    name: "Adidas",
-    logo: "/images/brands/adidas-logo.png",
-    banner: "/images/brands/adidas-banner.jpg",
-    description: "Impossible is Nothing. Adidas creates the best sports products for athletes of all levels.",
-    fullDescription: "Founded in 1949, Adidas has been at the forefront of sports innovation for decades. Known for the iconic three stripes, Adidas combines German engineering with cutting-edge design to create products that enhance athletic performance while maintaining style and comfort.",
-    founded: 1949,
-    headquarters: "Herzogenaurach, Germany",
-    category: "Sportswear, Footwear, Accessories",
-    website: "https://adidas.com",
-    socialMedia: {
-      instagram: "adidas",
-      twitter: "adidas",
-      facebook: "adidas"
-    }
-  },
-  zara: {
-    id: "zara",
-    name: "Zara",
-    logo: "/images/brands/zara-logo.png",
-    banner: "/images/brands/zara-banner.jpg",
-    description: "Fast fashion leader bringing the latest trends to customers worldwide.",
-    fullDescription: "Zara revolutionized the fashion industry with its fast-fashion model, bringing high-fashion trends to the mass market at affordable prices. With new collections arriving every week, Zara keeps fashion-forward customers coming back for the latest styles.",
-    founded: 1974,
-    headquarters: "Arteixo, Spain",
-    category: "Fashion, Apparel, Accessories",
-    website: "https://zara.com",
-    socialMedia: {
-      instagram: "zara",
-      twitter: "Zara",
-      facebook: "zara"
-    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching store data:', error);
+    return null;
   }
-};
-
-// Mock products by brand
-const brandProducts = {
-  nike: [
-    {
-      id: 1,
-      name: "Nike Air Max 270",
-      price: 149.99,
-      originalPrice: 189.99,
-      category: "Shoes & Sneakers",
-      type: "Running Shoes",
-      size: ["US 8", "US 9", "US 10", "US 11", "US 12"],
-      color: ["Black", "White", "Blue", "Red"],
-      image: "/images/products/nike-airmax.jpg",
-      rating: 4.7,
-      reviews: 289,
-      discount: 21,
-      technology: ["Air Max", "React Foam"],
-      season: ["Spring", "Summer", "Fall"],
-      activity: ["Running", "Walking", "Training"]
-    },
-    {
-      id: 2,
-      name: "Nike Dri-FIT Running Shirt",
-      price: 34.99,
-      originalPrice: 49.99,
-      category: "Sportswear",
-      type: "Performance Top",
-      size: ["S", "M", "L", "XL", "XXL"],
-      color: ["Black", "Gray", "Blue", "Green"],
-      image: "/images/products/nike-shirt.jpg",
-      rating: 4.5,
-      reviews: 156,
-      discount: 30,
-      technology: ["Dri-FIT"],
-      season: ["Spring", "Summer"],
-      activity: ["Running", "Training", "Gym"]
-    },
-    {
-      id: 3,
-      name: "Nike Pro Shorts",
-      price: 29.99,
-      originalPrice: 39.99,
-      category: "Sportswear",
-      type: "Shorts",
-      size: ["S", "M", "L", "XL"],
-      color: ["Black", "Navy", "Red"],
-      image: "/images/products/nike-shorts.jpg",
-      rating: 4.3,
-      reviews: 98,
-      discount: 25,
-      technology: ["Dri-FIT", "4-Way Stretch"],
-      season: ["Spring", "Summer"],
-      activity: ["Running", "Training", "Basketball"]
-    },
-    {
-      id: 4,
-      name: "Nike Air Force 1",
-      price: 99.99,
-      originalPrice: 129.99,
-      category: "Shoes & Sneakers",
-      type: "Lifestyle Shoes",
-      size: ["US 7", "US 8", "US 9", "US 10", "US 11"],
-      color: ["White", "Black", "Triple White"],
-      image: "/images/products/nike-af1.jpg",
-      rating: 4.8,
-      reviews: 432,
-      discount: 23,
-      technology: ["Air Cushioning"],
-      season: ["All Season"],
-      activity: ["Casual", "Lifestyle"]
-    }
-  ],
-  adidas: [
-    {
-      id: 5,
-      name: "Adidas Ultraboost 22",
-      price: 179.99,
-      originalPrice: 219.99,
-      category: "Shoes & Sneakers",
-      type: "Running Shoes",
-      size: ["US 8", "US 9", "US 10", "US 11"],
-      color: ["Black", "White", "Solar Red", "Blue"],
-      image: "/images/products/adidas-ultraboost.jpg",
-      rating: 4.6,
-      reviews: 198,
-      discount: 18,
-      technology: ["Boost", "Primeknit"],
-      season: ["All Season"],
-      activity: ["Running", "Walking"]
-    },
-    {
-      id: 6,
-      name: "Adidas Trefoil Hoodie",
-      price: 69.99,
-      originalPrice: 89.99,
-      category: "Sportswear",
-      type: "Hoodie",
-      size: ["S", "M", "L", "XL", "XXL"],
-      color: ["Black", "Gray", "Navy", "Green"],
-      image: "/images/products/adidas-hoodie.jpg",
-      rating: 4.4,
-      reviews: 124,
-      discount: 22,
-      technology: ["Cotton Blend", "Fleece Lining"],
-      season: ["Fall", "Winter"],
-      activity: ["Casual", "Lifestyle"]
-    }
-  ],
-  zara: [
-    {
-      id: 7,
-      name: "Zara Basic T-Shirt",
-      price: 15.99,
-      originalPrice: 22.99,
-      category: "Clothing",
-      type: "T-Shirt",
-      size: ["XS", "S", "M", "L", "XL"],
-      color: ["White", "Black", "Gray", "Navy", "Beige"],
-      image: "/images/products/zara-tshirt.jpg",
-      rating: 4.2,
-      reviews: 267,
-      discount: 30,
-      technology: ["Cotton"],
-      season: ["All Season"],
-      activity: ["Casual", "Everyday"]
-    },
-    {
-      id: 8,
-      name: "Zara Denim Jacket",
-      price: 59.99,
-      originalPrice: 79.99,
-      category: "Clothing",
-      type: "Jacket",
-      size: ["XS", "S", "M", "L", "XL"],
-      color: ["Light Blue", "Dark Blue", "Black"],
-      image: "/images/products/zara-jacket.jpg",
-      rating: 4.5,
-      reviews: 89,
-      discount: 25,
-      technology: ["Denim", "Cotton"],
-      season: ["Spring", "Fall"],
-      activity: ["Casual", "Fashion"]
-    }
-  ]
 };
 
 export default function BrandPage() {
@@ -218,9 +31,9 @@ export default function BrandPage() {
   
   // Brand-specific filters
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedType, setSelectedType] = useState("all");
-  const [selectedTechnology, setSelectedTechnology] = useState("all");
-  const [selectedSeason, setSelectedSeason] = useState("all");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("all");
+  const [selectedFeature, setSelectedFeature] = useState("all");
+  const [selectedGender, setSelectedGender] = useState("all");
   const [selectedActivity, setSelectedActivity] = useState("all");
   const [priceRange, setPriceRange] = useState([0, 300]);
   const [sortOption, setSortOption] = useState("popularity");
@@ -230,28 +43,49 @@ export default function BrandPage() {
     if (!products.length) return {};
     
     const categories = [...new Set(products.map(p => p.category))];
-    const types = [...new Set(products.map(p => p.type))];
-    const technologies = [...new Set(products.flatMap(p => p.technology))];
-    const seasons = [...new Set(products.flatMap(p => p.season))];
-    const activities = [...new Set(products.flatMap(p => p.activity))];
+    const subcategories = [...new Set(products.map(p => p.subcategory))];
+    const features = [...new Set(products.flatMap(p => p.features || []))];
+    const activities = [...new Set(products.flatMap(p => p.activity || []))];
+    const genders = [...new Set(products.flatMap(p => p.gender || []))];
     
-    return { categories, types, technologies, seasons, activities };
+    return { categories, subcategories, features, activities, genders };
   }, [products]);
 
   // Load brand data
   useEffect(() => {
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      const brandData = brandsData[brandId];
-      const brandProductsData = brandProducts[brandId] || [];
+    const loadBrandData = async () => {
+      setIsLoading(true);
       
-      setBrand(brandData);
-      setProducts(brandProductsData);
-      setFilteredProducts(brandProductsData);
-      setIsLoading(false);
-    }, 500);
+      try {
+        const storeData = await fetchStoreData();
+        
+        if (storeData) {
+          // Find brand data
+          const brandData = storeData.brands.find(brand => brand.id === brandId);
+          
+          // Filter products by brand
+          const brandProductsData = storeData.products.filter(product => product.brand === brandData?.name);
+          
+          setBrand(brandData);
+          setProducts(brandProductsData);
+          setFilteredProducts(brandProductsData);
+        } else {
+          // Fallback if data fetch fails
+          setBrand(null);
+          setProducts([]);
+          setFilteredProducts([]);
+        }
+      } catch (error) {
+        console.error('Error loading brand data:', error);
+        setBrand(null);
+        setProducts([]);
+        setFilteredProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBrandData();
   }, [brandId]);
 
   // Apply filters
@@ -265,24 +99,24 @@ export default function BrandPage() {
       result = result.filter(product => product.category === selectedCategory);
     }
     
-    // Type filter
-    if (selectedType !== "all") {
-      result = result.filter(product => product.type === selectedType);
+    // Subcategory filter
+    if (selectedSubcategory !== "all") {
+      result = result.filter(product => product.subcategory === selectedSubcategory);
     }
     
-    // Technology filter
-    if (selectedTechnology !== "all") {
-      result = result.filter(product => product.technology.includes(selectedTechnology));
+    // Feature filter
+    if (selectedFeature !== "all") {
+      result = result.filter(product => product.features && product.features.includes(selectedFeature));
     }
     
-    // Season filter
-    if (selectedSeason !== "all") {
-      result = result.filter(product => product.season.includes(selectedSeason));
+    // Gender filter
+    if (selectedGender !== "all") {
+      result = result.filter(product => product.gender && product.gender.includes(selectedGender));
     }
     
     // Activity filter
     if (selectedActivity !== "all") {
-      result = result.filter(product => product.activity.includes(selectedActivity));
+      result = result.filter(product => product.activity && product.activity.includes(selectedActivity));
     }
     
     // Price range filter
@@ -304,6 +138,9 @@ export default function BrandPage() {
       case 'rating':
         result.sort((a, b) => b.rating - a.rating);
         break;
+      case 'discount':
+        result.sort((a, b) => b.discount - a.discount);
+        break;
       case 'popularity':
       default:
         result.sort((a, b) => b.reviews - a.reviews);
@@ -311,13 +148,13 @@ export default function BrandPage() {
     }
     
     setFilteredProducts(result);
-  }, [selectedCategory, selectedType, selectedTechnology, selectedSeason, selectedActivity, priceRange, sortOption, products]);
+  }, [selectedCategory, selectedSubcategory, selectedFeature, selectedGender, selectedActivity, priceRange, sortOption, products]);
 
   const clearFilters = () => {
     setSelectedCategory("all");
-    setSelectedType("all");
-    setSelectedTechnology("all");
-    setSelectedSeason("all");
+    setSelectedSubcategory("all");
+    setSelectedFeature("all");
+    setSelectedGender("all");
     setSelectedActivity("all");
     setPriceRange([0, 300]);
     setSortOption("popularity");
@@ -368,7 +205,7 @@ export default function BrandPage() {
       {/* Brand Banner */}
       <div className="relative h-64 md:h-80 bg-gradient-to-r from-gray-900 to-gray-800">
         <Image
-          src={brand.banner}
+          src={brand.cover}
           alt={brand.name}
           fill
           className="object-cover opacity-40"
@@ -425,51 +262,34 @@ export default function BrandPage() {
               {/* Brand Details */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900">About {brand.name}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{brand.fullDescription}</p>
+                <p className="text-gray-600 text-sm leading-relaxed">{brand.description}</p>
                 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Founded:</span>
-                    <span className="text-gray-900 font-medium">{brand.founded}</span>
+                    <span className="text-gray-500">Products:</span>
+                    <span className="text-gray-900 font-medium">{brand.productCount}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Headquarters:</span>
-                    <span className="text-gray-900 font-medium">{brand.headquarters}</span>
+                    <span className="text-gray-500">Categories:</span>
+                    <span className="text-gray-900 font-medium">{brand.categories.join(", ")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Category:</span>
-                    <span className="text-gray-900 font-medium">{brand.category}</span>
+                    <span className="text-gray-500">Discount Range:</span>
+                    <span className="text-gray-900 font-medium">{brand.discountRange}</span>
                   </div>
                 </div>
 
-                {/* Social Media */}
+                {/* Brand Categories */}
                 <div className="pt-4 border-t border-gray-200">
-                  <h4 className="font-medium text-gray-900 mb-3">Follow {brand.name}</h4>
-                  <div className="flex gap-3">
-                    {Object.entries(brand.socialMedia).map(([platform, handle]) => (
-                      <a
-                        key={platform}
-                        href={`https://${platform}.com/${handle}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-colors"
-                        title={`Follow on ${platform}`}
-                      >
-                        <span className="text-sm">📱</span>
-                      </a>
+                  <h4 className="font-medium text-gray-900 mb-3">Categories</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {brand.categories.map(category => (
+                      <span key={category} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                        {category}
+                      </span>
                     ))}
                   </div>
                 </div>
-
-                {/* Brand Website */}
-                <a
-                  href={brand.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full bg-yellow-400 text-black text-center font-semibold py-2 rounded-lg hover:bg-yellow-500 transition-colors"
-                >
-                  Visit Official Website
-                </a>
               </div>
             </div>
           </div>
@@ -525,52 +345,54 @@ export default function BrandPage() {
                   </select>
                 </div>
 
-                {/* Type Filter */}
+                {/* Subcategory Filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
                   <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
+                    value={selectedSubcategory}
+                    onChange={(e) => setSelectedSubcategory(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm"
                   >
-                    <option value="all">All Types</option>
-                    {filterOptions.types?.map(type => (
-                      <option key={type} value={type}>{type}</option>
+                    <option value="all">All Subcategories</option>
+                    {filterOptions.subcategories?.map(subcategory => (
+                      <option key={subcategory} value={subcategory}>{subcategory}</option>
                     ))}
                   </select>
                 </div>
 
-                {/* Technology Filter */}
-                {filterOptions.technologies?.length > 0 && (
+                {/* Feature Filter */}
+                {filterOptions.features?.length > 0 && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Technology</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Feature</label>
                     <select
-                      value={selectedTechnology}
-                      onChange={(e) => setSelectedTechnology(e.target.value)}
+                      value={selectedFeature}
+                      onChange={(e) => setSelectedFeature(e.target.value)}
                       className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm"
                     >
-                      <option value="all">All Technologies</option>
-                      {filterOptions.technologies.map(tech => (
-                        <option key={tech} value={tech}>{tech}</option>
+                      <option value="all">All Features</option>
+                      {filterOptions.features.map(feature => (
+                        <option key={feature} value={feature}>{feature}</option>
                       ))}
                     </select>
                   </div>
                 )}
 
-                {/* Season Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Season</label>
-                  <select
-                    value={selectedSeason}
-                    onChange={(e) => setSelectedSeason(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm"
-                  >
-                    <option value="all">All Seasons</option>
-                    {filterOptions.seasons?.map(season => (
-                      <option key={season} value={season}>{season}</option>
-                    ))}
-                  </select>
-                </div>
+                {/* Gender Filter */}
+                {filterOptions.genders?.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    <select
+                      value={selectedGender}
+                      onChange={(e) => setSelectedGender(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm"
+                    >
+                      <option value="all">All Genders</option>
+                      {filterOptions.genders.map(gender => (
+                        <option key={gender} value={gender}>{gender}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 {/* Activity Filter */}
                 <div>
@@ -643,13 +465,13 @@ export default function BrandPage() {
                       {/* Product Info */}
                       <div className="p-4">
                         <h3 className="font-semibold text-gray-900 line-clamp-1 mb-1">{product.name}</h3>
-                        <p className="text-gray-600 text-sm mb-2">{product.type}</p>
+                        <p className="text-gray-600 text-sm mb-2">{product.subcategory}</p>
                         
-                        {/* Technology Tags */}
+                        {/* Feature Tags */}
                         <div className="flex flex-wrap gap-1 mb-3">
-                          {product.technology.slice(0, 2).map(tech => (
-                            <span key={tech} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                              {tech}
+                          {product.features && product.features.slice(0, 2).map(feature => (
+                            <span key={feature} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                              {feature}
                             </span>
                           ))}
                         </div>

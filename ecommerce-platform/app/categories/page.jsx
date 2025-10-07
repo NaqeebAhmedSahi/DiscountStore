@@ -11,7 +11,11 @@ const gradients = {
   "luxury-bags": "from-amber-500 to-orange-600",
   "sportswear": "from-green-500 to-emerald-600",
   "watches": "from-slate-500 to-gray-600",
-  "mens-clothing": "from-indigo-500 to-blue-600"
+  "mens-clothing": "from-indigo-500 to-blue-600",
+  "electronics": "from-cyan-500 to-blue-600",
+  "home-appliances": "from-orange-500 to-red-600",
+  "beauty": "from-pink-500 to-purple-600",
+  "kids": "from-yellow-500 to-orange-500"
 };
 
 const pattern = `bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]`;
@@ -24,8 +28,10 @@ export default function CategoriesPage() {
   const [minProducts, setMinProducts] = useState(0);
   const [maxProducts, setMaxProducts] = useState(1000);
   const [sortOption, setSortOption] = useState("relevance");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     fetch('/data/store.json')
       .then(res => res.json())
       .then(data => {
@@ -64,6 +70,15 @@ export default function CategoriesPage() {
 
   const featuredCategories = categoriesList.filter(cat => cat.featured);
   const otherCategories = categoriesList.filter(cat => !cat.featured);
+
+  // Prevent hydration mismatch by not rendering form elements until mounted
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
@@ -172,7 +187,7 @@ export default function CategoriesPage() {
                   {/* Background Image */}
                   <div className="relative h-80 overflow-hidden">
                     <Image
-                      src={cat.image}
+                      src={cat.banner}
                       alt={cat.name}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -248,7 +263,7 @@ export default function CategoriesPage() {
                 {/* Image Container */}
                 <div className="relative h-48 overflow-hidden">
                   <Image
-                    src={cat.image}
+                    src={cat.banner}
                     alt={cat.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"

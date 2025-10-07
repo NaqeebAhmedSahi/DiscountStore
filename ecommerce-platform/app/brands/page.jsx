@@ -1,78 +1,55 @@
 // app/brands/page.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const brandsList = [
-  {
-    id: "nike",
-    name: "Nike",
-    logo: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop&crop=center",
-    cover: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1200&h=800&fit=crop&crop=center",
-    description: "World's leading athletic footwear and apparel",
-    productCount: 45,
-    categories: ["Shoes", "Apparel", "Equipment"],
-    discountRange: "20-50% OFF"
-  },
-  {
-    id: "adidas",
-    name: "Adidas",
-    logo: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200&h=200&fit=crop&crop=center",
-    cover: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&h=800&fit=crop&crop=center",
-    description: "German sportswear manufacturer known for three stripes",
-    productCount: 32,
-    categories: ["Shoes", "Apparel", "Accessories"],
-    discountRange: "15-40% OFF"
-  },
-  {
-    id: "zara",
-    name: "Zara",
-    logo: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&h=200&fit=crop&crop=center",
-    cover: "https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&h=800&fit=crop&crop=center",
-    description: "Spanish fast fashion clothing and accessories",
-    productCount: 28,
-    categories: ["Clothing", "Accessories"],
-    discountRange: "25-60% OFF"
-  },
-  {
-    id: "h&m",
-    name: "H&M",
-    logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
-    cover: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=800&fit=crop&crop=center",
-    description: "Swedish multinational clothing-retail company",
-    productCount: 36,
-    categories: ["Clothing", "Accessories", "Home"],
-    discountRange: "30-70% OFF"
-  },
-  {
-    id: "puma",
-    name: "Puma",
-    logo: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=200&h=200&fit=crop&crop=center",
-    cover: "https://images.unsplash.com/photo-1551232864-3f0890e580d1?w=1200&h=800&fit=crop&crop=center",
-    description: "German multinational corporation that designs athletic footwear",
-    productCount: 24,
-    categories: ["Shoes", "Apparel", "Accessories"],
-    discountRange: "20-45% OFF"
-  },
-  {
-    id: "uniqlo",
-    name: "Uniqlo",
-    logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=center",
-    cover: "https://images.unsplash.com/photo-1520975916090-3105956dac38?w=1200&h=800&fit=crop&crop=center",
-    description: "Japanese casual wear designer, manufacturer and retailer",
-    productCount: 19,
-    categories: ["Clothing", "Accessories"],
-    discountRange: "15-35% OFF"
+// Function to fetch store data
+const fetchStoreData = async () => {
+  try {
+    const response = await fetch('/data/store.json');
+    if (!response.ok) {
+      throw new Error('Failed to fetch store data');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching store data:', error);
+    return null;
   }
-];
+};
 
 export default function BrandsPage() {
+  const [brandsList, setBrandsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [minDiscount, setMinDiscount] = useState(0);
   const [sortOption, setSortOption] = useState("relevance");
+
+  // Load brands data
+  useEffect(() => {
+    const loadBrandsData = async () => {
+      setIsLoading(true);
+      
+      try {
+        const storeData = await fetchStoreData();
+        
+        if (storeData && storeData.brands) {
+          setBrandsList(storeData.brands);
+        } else {
+          setBrandsList([]);
+        }
+      } catch (error) {
+        console.error('Error loading brands data:', error);
+        setBrandsList([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBrandsData();
+  }, []);
 
   const allCategories = Array.from(new Set(brandsList.flatMap(b => b.categories)));
 
@@ -107,6 +84,17 @@ export default function BrandsPage() {
           return 0;
       }
     });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading brands...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">

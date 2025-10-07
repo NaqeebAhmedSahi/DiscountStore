@@ -6,146 +6,30 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-// Mock product data - in real app, this would come from an API
-const mockProducts = [
-  {
-    id: 1,
-    name: "Premium Running Shoes",
-    price: 89.99,
-    originalPrice: 129.99,
-    category: "Shoes & Sneakers",
-    brand: "Nike",
-    size: ["US 8", "US 9", "US 10", "US 11"],
-    color: ["Black", "White", "Blue"],
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=800&fit=crop&crop=center",
-    rating: 4.5,
-    reviews: 124,
-    isNew: true,
-    discount: 30
-  },
-  {
-    id: 2,
-    name: "Designer Handbag",
-    price: 199.99,
-    originalPrice: 299.99,
-    category: "Luxury Bags",
-    brand: "Michael Kors",
-    size: ["One Size"],
-    color: ["Brown", "Black", "Red"],
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=800&fit=crop&crop=center",
-    rating: 4.8,
-    reviews: 89,
-    isNew: false,
-    discount: 33
-  },
-  {
-    id: 3,
-    name: "Sports Watch",
-    price: 149.99,
-    originalPrice: 199.99,
-    category: "Watches",
-    brand: "Casio",
-    size: ["Regular", "Large"],
-    color: ["Black", "Silver", "Blue"],
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop&crop=center",
-    rating: 4.3,
-    reviews: 67,
-    isNew: true,
-    discount: 25
-  },
-  {
-    id: 4,
-    name: "Summer Dress",
-    price: 49.99,
-    originalPrice: 79.99,
-    category: "Women's Fashion",
-    brand: "Zara",
-    size: ["S", "M", "L", "XL"],
-    color: ["Red", "Yellow", "Blue", "White"],
-    image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&h=800&fit=crop&crop=center",
-    rating: 4.6,
-    reviews: 156,
-    isNew: false,
-    discount: 37
-  },
-  {
-    id: 5,
-    name: "Men's Casual Shirt",
-    price: 39.99,
-    originalPrice: 59.99,
-    category: "Men's Clothing",
-    brand: "H&M",
-    size: ["S", "M", "L", "XL", "XXL"],
-    color: ["White", "Blue", "Gray", "Black"],
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop&crop=center",
-    rating: 4.2,
-    reviews: 203,
-    isNew: true,
-    discount: 33
-  },
-  {
-    id: 6,
-    name: "Yoga Pants",
-    price: 34.99,
-    originalPrice: 49.99,
-    category: "Sportswear",
-    brand: "Adidas",
-    size: ["XS", "S", "M", "L", "XL"],
-    color: ["Black", "Gray", "Purple"],
-    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
-    rating: 4.7,
-    reviews: 178,
-    isNew: false,
-    discount: 30
-  },
-  {
-    id: 7,
-    name: "Basketball Sneakers",
-    price: 119.99,
-    originalPrice: 159.99,
-    category: "Shoes & Sneakers",
-    brand: "Jordan",
-    size: ["US 7", "US 8", "US 9", "US 10", "US 11", "US 12"],
-    color: ["Red", "Black", "White"],
-    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&h=800&fit=crop&crop=center",
-    rating: 4.9,
-    reviews: 234,
-    isNew: true,
-    discount: 25
-  },
-  {
-    id: 8,
-    name: "Leather Wallet",
-    price: 59.99,
-    originalPrice: 89.99,
-    category: "Luxury Bags",
-    brand: "Fossil",
-    size: ["One Size"],
-    color: ["Brown", "Black"],
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=800&fit=crop&crop=center",
-    rating: 4.4,
-    reviews: 92,
-    isNew: false,
-    discount: 33
+// Fetch store data
+const fetchStoreData = async () => {
+  try {
+    const response = await fetch('/data/store.json');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching store data:', error);
+    return { products: [], categories: [], brands: [] };
   }
-];
-
-const categories = ["All", "Shoes & Sneakers", "Women's Fashion", "Luxury Bags", "Sportswear", "Watches", "Men's Clothing"];
-const brands = ["Nike", "Adidas", "Zara", "H&M", "Michael Kors", "Casio", "Jordan", "Fossil"];
-const sizes = ["XS", "S", "M", "L", "XL", "XXL", "US 7", "US 8", "US 9", "US 10", "US 11", "US 12", "Regular", "Large", "One Size"];
-const colors = ["Black", "White", "Blue", "Red", "Brown", "Gray", "Silver", "Yellow", "Purple"];
+};
 
 // Products Content Component (separated to use useSearchParams)
 function ProductsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
-  const [products, setProducts] = useState(mockProducts);
-  const [filteredProducts, setFilteredProducts] = useState(mockProducts);
+  const [storeData, setStoreData] = useState({ products: [], categories: [], brands: [] });
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [sortOption, setSortOption] = useState('popularity');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
   // Filter states
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -155,6 +39,43 @@ function ProductsContent() {
   const [priceRange, setPriceRange] = useState([0, 300]);
   
   const productsPerPage = 8;
+
+  // Load store data on component mount
+  useEffect(() => {
+    const loadStoreData = async () => {
+      setIsLoading(true);
+      const data = await fetchStoreData();
+      setStoreData(data);
+      setProducts(data.products);
+      setFilteredProducts(data.products);
+      setIsLoading(false);
+    };
+    
+    loadStoreData();
+  }, []);
+
+  // Extract filter options from store data
+  const categories = useMemo(() => {
+    const categorySet = new Set(storeData.products.map(p => p.category));
+    return ["All", ...Array.from(categorySet)];
+  }, [storeData.products]);
+
+  const brands = useMemo(() => {
+    const brandSet = new Set(storeData.products.map(p => p.brand));
+    return Array.from(brandSet);
+  }, [storeData.products]);
+
+  const sizes = useMemo(() => {
+    const sizeSet = new Set();
+    storeData.products.forEach(p => p.size?.forEach(s => sizeSet.add(s)));
+    return Array.from(sizeSet);
+  }, [storeData.products]);
+
+  const colors = useMemo(() => {
+    const colorSet = new Set();
+    storeData.products.forEach(p => p.color?.forEach(c => colorSet.add(c)));
+    return Array.from(colorSet);
+  }, [storeData.products]);
 
   // Update URL parameters
   const updateSearchParams = (updates) => {
@@ -171,6 +92,8 @@ function ProductsContent() {
 
   // Filter and sort products
   useEffect(() => {
+    if (products.length === 0) return;
+    
     setIsLoading(true);
     
     let result = [...products];
@@ -197,14 +120,14 @@ function ProductsContent() {
     // Size filter
     if (selectedSizes.length > 0) {
       result = result.filter(product => 
-        product.size.some(size => selectedSizes.includes(size))
+        product.size && product.size.some(size => selectedSizes.includes(size))
       );
     }
     
     // Color filter
     if (selectedColors.length > 0) {
       result = result.filter(product => 
-        product.color.some(color => selectedColors.includes(color))
+        product.color && product.color.some(color => selectedColors.includes(color))
       );
     }
     
@@ -479,7 +402,7 @@ function ProductsContent() {
                   <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 [column-fill:_balance]">
                     {currentProducts.map(product => (
                       <div key={product.id} className="mb-6 break-inside-avoid">
-                        <Link href={`/product/${product.id}`}>
+                        <Link href={`/products/${product.id}`}>
                           <div className="relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all">
                             {/* Product Image */}
                             <div className="relative h-56">
