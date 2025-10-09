@@ -4,10 +4,44 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAppDispatch } from "../../../../lib/hooks/redux";
+import { addToCart } from "../../../../lib/store/cartSlice";
+import { showSuccessToast } from "../../../../lib/utils/toast";
 
 export default function TrendingDeals() {
+  const dispatch = useAppDispatch();
   const [deals, setDeals] = useState([]);
   const [soldPercentages, setSoldPercentages] = useState({});
+
+  const handleAddToCart = (deal) => {
+    // Convert the deal to match our cart structure
+    const product = {
+      id: deal.id,
+      name: deal.name,
+      price: deal.price,
+      originalPrice: deal.oldPrice,
+      image: deal.image,
+      brand: deal.brand || 'Unknown',
+      category: deal.category || 'Deals',
+      inStock: true,
+      discount: deal.discount,
+      rating: deal.rating,
+      reviews: deal.reviews
+    };
+
+    // Use default size and color for quick add
+    const selectedSize = 'One Size';
+    const selectedColor = deal.colors && deal.colors.length > 0 ? 'Default' : 'Default';
+
+    dispatch(addToCart({
+      product,
+      selectedSize,
+      selectedColor,
+      quantity: 1
+    }));
+
+    showSuccessToast("", deal.name);
+  };
 
   useEffect(() => {
     fetch('/data/store.json')
@@ -247,7 +281,10 @@ export default function TrendingDeals() {
                   )}
 
                   {/* Add to Cart Button */}
-                  <button className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <button 
+                    onClick={() => handleAddToCart(deal)}
+                    className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
                     Grab This Deal
                   </button>
                 </div>

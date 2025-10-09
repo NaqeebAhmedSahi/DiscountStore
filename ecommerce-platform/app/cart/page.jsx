@@ -4,79 +4,44 @@ import Header from "../components/common/Header/Header";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-// Mock cart data
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Premium Running Shoes",
-    price: 89.99,
-    originalPrice: 129.99,
-    image: "/images/products/shoe-1.jpg",
-    size: "US 9",
-    color: "Black",
-    quantity: 1,
-    brand: "Nike",
-    inStock: true,
-    maxQuantity: 5
-  },
-  {
-    id: 2,
-    name: "Designer Handbag",
-    price: 199.99,
-    originalPrice: 299.99,
-    image: "/images/products/bag-1.jpg",
-    size: "One Size",
-    color: "Brown",
-    quantity: 1,
-    brand: "Michael Kors",
-    inStock: true,
-    maxQuantity: 3
-  },
-  {
-    id: 3,
-    name: "Sports Watch",
-    price: 149.99,
-    originalPrice: 199.99,
-    image: "/images/products/watch-1.jpg",
-    size: "Regular",
-    color: "Black",
-    quantity: 2,
-    brand: "Casio",
-    inStock: true,
-    maxQuantity: 4
-  }
-];
+import { useAppSelector, useAppDispatch } from "../../lib/hooks/redux";
+import { 
+  selectCartItems, 
+  selectCartSummary, 
+  updateQuantity, 
+  removeFromCart, 
+  clearCart 
+} from "../../lib/store/cartSlice";
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector(selectCartItems);
+  const cartSummary = useAppSelector(selectCartSummary);
+  
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
 
-  // Calculate totals
-  const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const shipping = subtotal > 100 ? 0 : 9.99;
-  const tax = subtotal * 0.08; // 8% tax
+  // Calculate totals with promo
+  const subtotal = cartSummary.subtotal;
+  const shipping = cartSummary.shipping;
+  const tax = cartSummary.tax;
   const discount = promoApplied ? subtotal * 0.1 : 0; // 10% discount
   const total = subtotal + shipping + tax - discount;
 
   // Update quantity
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id 
-          ? { ...item, quantity: Math.min(newQuantity, item.maxQuantity) }
-          : item
-      )
-    );
+  const handleUpdateQuantity = (cartItemId, newQuantity) => {
+    dispatch(updateQuantity({ cartItemId, quantity: newQuantity }));
   };
 
   // Remove item from cart
-  const removeItem = (id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+  const handleRemoveItem = (cartItemId) => {
+    dispatch(removeFromCart(cartItemId));
+  };
+
+  // Clear cart
+  const handleClearCart = () => {
+    dispatch(clearCart());
   };
 
   // Apply promo code
@@ -98,14 +63,11 @@ export default function CartPage() {
     setPromoError("");
   };
 
-  // Save cart to localStorage
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+  // Remove the localStorage effect since Redux handles persistence
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
@@ -151,7 +113,7 @@ export default function CartPage() {
                   <div className="space-y-6">
                     {cartItems.map((item) => (
                       <div
-                        key={item.id}
+                        key={item.cartItemId}
                         className="flex flex-col sm:flex-row gap-4 pb-6 border-b border-gray-100 last:border-b-0"
                       >
                         {/* Product Image */}
@@ -169,7 +131,7 @@ export default function CartPage() {
                           <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                             <div>
                               <h3 className="font-semibold text-gray-900 hover:text-yellow-600 transition-colors">
-                                <Link href={`/product/${item.id}`}>
+                                <Link href={`/products/${item.id}`}>
                                   {item.name}
                                 </Link>
                               </h3>
@@ -177,8 +139,8 @@ export default function CartPage() {
                               
                               {/* Size and Color */}
                               <div className="flex gap-4 mt-2 text-sm text-gray-600">
-                                <span>Size: {item.size}</span>
-                                <span>Color: {item.color}</span>
+                                <span>Size: {item.selectedSize}</span>
+                                <span>Color: {item.selectedColor}</span>
                               </div>
 
                               {/* Stock Status */}
@@ -194,10 +156,10 @@ export default function CartPage() {
                             {/* Price */}
                             <div className="text-right">
                               <div className="text-lg font-bold text-gray-900">
-                                ${item.price.toFixed(2)}
+                                ${(parseFloat(item.price) || 0).toFixed(2)}
                               </div>
                               <div className="text-sm text-gray-500 line-through">
-                                ${item.originalPrice.toFixed(2)}
+                                ${(parseFloat(item.originalPrice) || 0).toFixed(2)}
                               </div>
                             </div>
                           </div>
@@ -209,7 +171,7 @@ export default function CartPage() {
                               <span className="text-sm font-medium text-gray-700">Quantity:</span>
                               <div className="flex items-center border border-gray-300 rounded-lg">
                                 <button
-                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                  onClick={() => handleUpdateQuantity(item.cartItemId, item.quantity - 1)}
                                   disabled={item.quantity <= 1}
                                   className="px-3 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-l-lg"
                                 >
@@ -219,7 +181,7 @@ export default function CartPage() {
                                   {item.quantity}
                                 </span>
                                 <button
-                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                  onClick={() => handleUpdateQuantity(item.cartItemId, item.quantity + 1)}
                                   disabled={item.quantity >= item.maxQuantity}
                                   className="px-3 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-r-lg"
                                 >
@@ -233,7 +195,7 @@ export default function CartPage() {
 
                             {/* Remove Button */}
                             <button
-                              onClick={() => removeItem(item.id)}
+                              onClick={() => handleRemoveItem(item.cartItemId)}
                               className="text-red-600 hover:text-red-700 font-medium flex items-center gap-1"
                             >
                               <span>🗑️</span>
@@ -245,7 +207,7 @@ export default function CartPage() {
                           <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
                             <span className="text-sm text-gray-600">Item Total:</span>
                             <span className="font-semibold text-gray-900">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              ${(item.totalPrice || (parseFloat(item.price) || 0) * (item.quantity || 1)).toFixed(2)}
                             </span>
                           </div>
                         </div>
@@ -256,7 +218,7 @@ export default function CartPage() {
                   {/* Cart Actions */}
                   <div className="flex flex-col sm:flex-row gap-4 mt-6 pt-6 border-t border-gray-200">
                     <button
-                      onClick={() => setCartItems([])}
+                      onClick={handleClearCart}
                       className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       Clear Cart
@@ -279,7 +241,7 @@ export default function CartPage() {
                   {/* Price Breakdown */}
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-gray-600">
-                      <span>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
+                      <span>Subtotal ({cartSummary.itemCount} items)</span>
                       <span>${subtotal.toFixed(2)}</span>
                     </div>
                     

@@ -2,33 +2,42 @@
 "use client";
 
 import Image from "next/image";
+import { useAppDispatch } from "../../../../lib/hooks/redux";
+import { addToCart } from "../../../../lib/store/cartSlice";
+import { showSuccessToast } from "../../../../lib/utils/toast";
 
 const arrivals = [
   {
     id: 1,
     name: "Nike Air Max",
-    price: "$120",
-    oldPrice: "$200",
-    discount: "40% OFF",
+    price: 120,
+    originalPrice: 200,
+    discount: 40,
     image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=800&fit=crop&crop=center",
     rating: 4.8,
     reviews: 124,
     badge: "NEW",
     colors: ["#000000", "#FF6B6B", "#4ECDC4"],
-    sizes: ["S", "M", "L", "XL"]
+    sizes: ["S", "M", "L", "XL"],
+    brand: "Nike",
+    category: "Shoes & Sneakers",
+    inStock: true
   },
   {
     id: 2,
     name: "Zara Summer Dress",
-    price: "$60",
-    oldPrice: "$100",
-    discount: "40% OFF",
+    price: 60,
+    originalPrice: 100,
+    discount: 40,
     image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&h=800&fit=crop&crop=center",
     rating: 4.6,
     reviews: 89,
     badge: "HOT",
     colors: ["#FF6B6B", "#4ECDC4", "#45B7D1"],
-    sizes: ["XS", "S", "M", "L"]
+    sizes: ["XS", "S", "M", "L"],
+    brand: "Zara",
+    category: "Women's Fashion",
+    inStock: true
   },
   {
     id: 3,
@@ -59,6 +68,37 @@ const arrivals = [
 ];
 
 export default function NewArrivals() {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = (item) => {
+    // Convert the item to match our cart structure
+    const product = {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      originalPrice: item.originalPrice,
+      image: item.image,
+      brand: item.brand,
+      category: item.category,
+      inStock: item.inStock,
+      discount: item.discount,
+      rating: item.rating,
+      reviews: item.reviews
+    };
+
+    // Use default size and color for quick add
+    const selectedSize = item.sizes && item.sizes.length > 0 ? item.sizes[0] : 'One Size';
+    const selectedColor = item.colors && item.colors.length > 0 ? 'Default' : 'Default';
+
+    dispatch(addToCart({
+      product,
+      selectedSize,
+      selectedColor,
+      quantity: 1
+    }));
+
+    showSuccessToast("", item.name);
+  };
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Background Elements */}
@@ -182,7 +222,10 @@ export default function NewArrivals() {
                 </div>
 
                 {/* Add to Cart Button */}
-                <button className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <button 
+                  onClick={() => handleAddToCart(item)}
+                  className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
                   Add to Cart
                 </button>
               </div>

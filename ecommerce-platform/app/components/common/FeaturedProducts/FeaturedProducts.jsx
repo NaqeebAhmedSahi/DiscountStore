@@ -4,12 +4,31 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppDispatch } from "../../../../lib/hooks/redux";
+import { addToCart } from "../../../../lib/store/cartSlice";
+import { showSuccessToast } from "../../../../lib/utils/toast";
 
 export default function FeaturedProducts() {
+  const dispatch = useAppDispatch();
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
   const [featuredIds, setFeaturedIds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const handleAddToCart = (product) => {
+    // Use default size and color for quick add
+    const selectedSize = product.size && product.size.length > 0 ? product.size[0] : 'One Size';
+    const selectedColor = product.color && product.color.length > 0 ? product.color[0] : 'Default';
+
+    dispatch(addToCart({
+      product,
+      selectedSize,
+      selectedColor,
+      quantity: 1
+    }));
+
+    showSuccessToast("", product.name);
+  };
 
   useEffect(() => {
     fetch('/data/store.json')
@@ -208,6 +227,7 @@ export default function FeaturedProducts() {
 
                 {/* Add to Cart Button */}
                 <button 
+                  onClick={() => handleAddToCart(product)}
                   suppressHydrationWarning
                   className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >

@@ -4,6 +4,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ShoppingCart, User, Search, Menu } from "lucide-react";
+import { useAppSelector, useAppDispatch } from "../../../../lib/hooks/redux";
+import { selectCartItemCount, openCart } from "../../../../lib/store/cartSlice";
 
 // Custom Button with client-side detection
 function Button({ children, onClick, variant = "ghost", size = "icon" }) {
@@ -49,10 +51,20 @@ function Button({ children, onClick, variant = "ghost", size = "icon" }) {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  
+  // Redux state
+  const cartItemCount = useAppSelector(selectCartItemCount);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleCartClick = () => {
+    dispatch(openCart());
+    // Navigate to cart page
+    window.location.href = '/cart';
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
@@ -110,8 +122,15 @@ export default function Header() {
           <Button variant="ghost" size="icon">
             <Search className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <ShoppingCart className="w-5 h-5" />
+          <Button variant="ghost" size="icon" onClick={handleCartClick}>
+            <div className="relative">
+              <ShoppingCart className="w-5 h-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
+                </span>
+              )}
+            </div>
           </Button>
           <Button variant="ghost" size="icon">
             <User className="w-5 h-5" />
@@ -172,6 +191,13 @@ export default function Header() {
           >
             Contact
           </Link>
+          <button
+            onClick={handleCartClick}
+            className="w-full text-left text-gray-700 hover:text-indigo-600 font-medium flex items-center gap-2"
+          >
+            <ShoppingCart className="w-4 h-4" />
+            Cart ({cartItemCount})
+          </button>
         </div>
       )}
     </header>

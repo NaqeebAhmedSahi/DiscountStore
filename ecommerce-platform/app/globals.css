@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "react-toastify/dist/ReactToastify.css";
 
 :root {
   --background: #ffffff;
@@ -16,6 +17,80 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+  }
+}
+
+/* Custom Toast Styling */
+.custom-toast {
+  @apply rounded-2xl shadow-2xl border border-gray-100 bg-white;
+  min-height: 80px;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.custom-toast-body {
+  @apply p-4 m-0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.custom-toast-progress {
+  @apply bg-gradient-to-r from-green-400 to-emerald-500;
+  height: 4px;
+  border-radius: 0 0 16px 16px;
+}
+
+/* Success Toast Icon */
+.Toastify__toast--success .custom-toast-body::before {
+  content: "✓";
+  @apply flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-lg;
+  margin-right: 12px;
+}
+
+/* Toast Content Styling */
+.Toastify__toast--success .custom-toast-body {
+  @apply text-gray-900 font-semibold;
+}
+
+.Toastify__toast--success .custom-toast-body .toast-message {
+  @apply text-gray-600 text-sm mt-1;
+}
+
+/* Toast Animation Override */
+.Toastify__toast {
+  @apply transform transition-all duration-300 ease-out;
+}
+
+.Toastify__toast--success {
+  @apply border-l-4 border-green-400;
+}
+
+/* Close Button Styling */
+.Toastify__close-button {
+  @apply text-gray-400 hover:text-gray-600 transition-colors;
+  opacity: 1;
+}
+
+.Toastify__close-button:hover {
+  @apply text-gray-600;
+}
+
+/* Toast Container Positioning */
+.Toastify__toast-container {
+  @apply top-4 right-4;
+  width: 400px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .Toastify__toast-container {
+    @apply left-4 right-4;
+    width: auto;
+  }
+  
+  .custom-toast {
+    @apply rounded-xl;
   }
 }
 

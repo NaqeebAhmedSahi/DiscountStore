@@ -5,6 +5,9 @@ import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppDispatch } from "../../lib/hooks/redux";
+import { addToCart } from "../../lib/store/cartSlice";
+import { showSuccessToast } from "../../lib/utils/toast";
 
 // Fetch store data
 const fetchStoreData = async () => {
@@ -22,6 +25,7 @@ const fetchStoreData = async () => {
 function ProductsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   
   const [storeData, setStoreData] = useState({ products: [], categories: [], brands: [] });
   const [products, setProducts] = useState([]);
@@ -207,6 +211,22 @@ function ProductsContent() {
     setSearchQuery('');
     setSortOption('popularity');
     setCurrentPage(1);
+  };
+
+  const handleAddToCart = (product) => {
+    // For products page, we'll use default size and color
+    const selectedSize = product.size && product.size.length > 0 ? product.size[0] : 'One Size';
+    const selectedColor = product.color && product.color.length > 0 ? product.color[0] : 'Default';
+    
+    dispatch(addToCart({
+      product,
+      selectedSize,
+      selectedColor,
+      quantity: 1
+    }));
+    
+    // Show success message
+    showSuccessToast("", product.name);
   };
 
   return (
@@ -439,7 +459,16 @@ function ProductsContent() {
                               </div>
                               <div className="flex items-center justify-between text-sm">
                                 <span className="text-gray-500">{product.reviews} reviews</span>
-                                <button className="px-3 py-1.5 rounded-full bg-yellow-400 text-black font-semibold text-xs hover:bg-yellow-500">Add to cart</button>
+                                <button 
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleAddToCart(product);
+                                  }}
+                                  className="px-3 py-1.5 rounded-full bg-yellow-400 text-black font-semibold text-xs hover:bg-yellow-500 transition-colors"
+                                >
+                                  Add to cart
+                                </button>
                               </div>
                             </div>
                           </div>
