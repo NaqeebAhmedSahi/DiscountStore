@@ -372,6 +372,17 @@ export default function ProductDetailPage() {
                   </>
                 )}
               </button>
+              {/* Link to original brand product */}
+              {product.originalUrl && (
+                <a
+                  href={product.originalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 border border-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg hover:bg-gray-50 text-center"
+                >
+                  View on {product.brand} site
+                </a>
+              )}
             </div>
 
             {/* Product Features */}

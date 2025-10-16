@@ -58,6 +58,7 @@ const cartSlice = createSlice({
           image: product.image,
           brand: product.brand,
           category: product.category,
+          originalUrl: product.originalUrl || null,
           selectedSize: selectedSize || 'One Size',
           selectedColor: selectedColor || 'Default',
           quantity,

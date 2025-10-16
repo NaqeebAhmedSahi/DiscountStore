@@ -245,12 +245,12 @@ export default function FeaturedProducts() {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <button 
-            suppressHydrationWarning
-            className="px-8 py-4 bg-white border-2 border-purple-600 text-purple-600 font-semibold rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+          <Link
+            href="/products"
+            className="px-8 py-4 bg-white border-2 border-purple-600 text-purple-600 font-semibold rounded-xl hover:bg-purple-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
           >
             View All Featured Products
-          </button>
+          </Link>
         </div>
       </div>
     </section>

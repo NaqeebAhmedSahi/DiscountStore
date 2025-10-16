@@ -2,7 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { ShoppingCart, User, Search, Menu } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../../../lib/hooks/redux";
 import { selectCartItemCount, openCart } from "../../../../lib/store/cartSlice";
@@ -16,7 +17,7 @@ function Button({ children, onClick, variant = "ghost", size = "icon" }) {
   }, []);
 
   const baseStyles =
-    "flex items-center justify-center rounded-2xl transition-colors focus:outline-none";
+    "flex items-center justify-center rounded-2xl transition-colors focus:outline-none cursor-pointer";
 
   const variants = {
     ghost: "bg-transparent hover:bg-gray-100 text-gray-700",
@@ -29,10 +30,16 @@ function Button({ children, onClick, variant = "ghost", size = "icon" }) {
     md: "px-4 py-2 text-base",
   };
 
-  // During SSR, render a div that matches the button structure
+  // During SSR, render a non-interactive element that visually matches the button
+  // but keep accessibility attributes so it behaves like a button to assistive tech.
   if (!isClient) {
     return (
-      <div className={`${baseStyles} ${variants[variant]} ${sizes[size]}`}>
+      <div
+        role="button"
+        tabIndex={0}
+        aria-hidden={true}
+        className={`${baseStyles} ${variants[variant]} ${sizes[size]}`}
+      >
         {children}
       </div>
     );
@@ -51,6 +58,11 @@ function Button({ children, onClick, variant = "ghost", size = "icon" }) {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef(null);
+  const inputRef = useRef(null);
+  const router = useRouter();
   
   // Redux state
   const cartItemCount = useAppSelector(selectCartItemCount);
@@ -59,6 +71,47 @@ export default function Header() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Focus search input when opened
+  useEffect(() => {
+    if (searchOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [searchOpen]);
+
+  // Close search on outside click or Escape
+  useEffect(() => {
+    if (!searchOpen) return;
+
+    function handleDocClick(e) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
+    }
+
+    function handleEsc(e) {
+      if (e.key === "Escape") setSearchOpen(false);
+    }
+
+    document.addEventListener("mousedown", handleDocClick);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleDocClick);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [searchOpen]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const q = (searchQuery || "").trim();
+    if (q) {
+      router.push(`/products?search=${encodeURIComponent(q)}`);
+    } else {
+      router.push(`/products`);
+    }
+    setSearchOpen(false);
+    setSearchQuery("");
+  };
 
   const handleCartClick = () => {
     dispatch(openCart());
@@ -119,9 +172,41 @@ export default function Header() {
 
         {/* Right Icons */}
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon">
-            <Search className="w-5 h-5" />
-          </Button>
+          {/* Search: toggles to show input */}
+          <div ref={searchRef} className="relative">
+            {!searchOpen ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSearchOpen(true)}
+                aria-label="Open search"
+              >
+                <Search className="w-5 h-5" />
+              </Button>
+            ) : (
+              <form onSubmit={handleSearchSubmit} className="flex items-center bg-gray-100 rounded-full px-2">
+                <input
+                  ref={inputRef}
+                  aria-label="Search products"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search products, brands, categories..."
+                  className="bg-transparent outline-none px-3 py-2 w-40 md:w-64 text-sm"
+                />
+                <button type="submit" className="p-2 text-gray-700" aria-label="Search">
+                  <Search className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+                  className="p-2 text-gray-500 hover:text-gray-700"
+                  aria-label="Close search"
+                >
+                  ✕
+                </button>
+              </form>
+            )}
+          </div>
           <Button variant="ghost" size="icon" onClick={handleCartClick}>
             <div className="relative">
               <ShoppingCart className="w-5 h-5" />

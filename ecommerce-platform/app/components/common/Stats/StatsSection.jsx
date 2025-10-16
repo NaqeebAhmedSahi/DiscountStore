@@ -1,6 +1,7 @@
 // components/common/Stats/StatsSection.jsx
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const stats = [
@@ -93,10 +94,10 @@ export default function StatsSection() {
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+          <Link href="/products" className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
             <span>Start Shopping Now</span>
             <span className="text-xl">→</span>
-          </div>
+          </Link>
         </div>
       </div>
     </section>

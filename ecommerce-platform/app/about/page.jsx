@@ -116,13 +116,16 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/products"
-              className="bg-gradient-to-r from-yellow-400 to-amber-400 text-black px-8 py-3 rounded-lg font-bold text-lg hover:from-yellow-500 hover:to-amber-500 transition-colors"
+              className="bg-gradient-to-r from-yellow-400 to-amber-400 text-black px-8 py-3 rounded-lg font-bold text-lg hover:from-yellow-500 hover:to-amber-500 transition-colors cursor-pointer"
             >
               Start Shopping Now
             </Link>
-            <button className="border-2 border-white/70 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-black transition-colors">
+            <Link
+              href="/about#demo"
+              className="border-2 border-white/70 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-white hover:text-black transition-colors cursor-pointer"
+            >
               Watch Demo
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -299,13 +302,7 @@ export default function AboutPage() {
                   <h3 className="font-bold text-gray-900 mb-2">{step.title}</h3>
                   <p className="text-gray-600 text-sm">{step.description}</p>
                 </div>
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden md:flex items-center justify-center h-full">
-                    <div className="w-full h-0.5 bg-gray-300 relative">
-                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 border-t-2 border-r-2 border-gray-400 rotate-45"></div>
-                    </div>
-                  </div>
-                )}
+                {/* Decorative arrows removed for a cleaner look */}
               </div>
             ))}
           </div>
@@ -322,18 +319,32 @@ export default function AboutPage() {
             <p className="text-xl text-gray-600">Shop from your favorite brands all in one place</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-stretch">
             {brands.map((brand, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl p-6 text-center group hover:shadow-lg transition-all">
-                <div className="relative w-24 h-24 mx-auto mb-4">
-                  <div className="bg-white rounded-xl p-3 shadow-md group-hover:scale-110 transition-transform">
-                    <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center">
-                      <span className="text-2xl font-bold text-gray-600">{brand.name.charAt(0)}</span>
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center bg-white rounded-2xl p-4 shadow-sm hover:shadow-lg transition transform hover:-translate-y-1"
+              >
+                <div className="w-20 h-20 mb-3 flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden">
+                  {brand.logo ? (
+                    <Image
+                      src={brand.logo}
+                      alt={`${brand.name} logo`}
+                      width={80}
+                      height={80}
+                      className="object-contain"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-gray-600">
+                      {brand.name.charAt(0)}
                     </div>
-                  </div>
+                  )}
                 </div>
-                <h3 className="font-semibold text-gray-900">{brand.name}</h3>
-                <p className="text-yellow-600 text-sm mt-1">Up to 60% OFF</p>
+                <h3 className="font-semibold text-gray-900 text-sm text-center">{brand.name}</h3>
+                <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-xs font-medium">
+                  <span className="font-bold">Up to</span>
+                  <span className="text-yellow-600">60% OFF</span>
+                </div>
               </div>
             ))}
           </div>

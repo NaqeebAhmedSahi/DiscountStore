@@ -217,3 +217,10 @@ body {
   background-clip: text;
 }
 
+
+/* Ensure interactive affordance for buttons and button-like elements */
+button,
+[role="button"] {
+  cursor: pointer;
+}
+

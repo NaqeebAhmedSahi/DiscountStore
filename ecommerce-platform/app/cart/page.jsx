@@ -210,6 +210,19 @@ export default function CartPage() {
                               ${(item.totalPrice || (parseFloat(item.price) || 0) * (item.quantity || 1)).toFixed(2)}
                             </span>
                           </div>
+                            {/* External Link to Original Product */}
+                            {item.originalUrl && (
+                              <div className="mt-3">
+                                <a
+                                  href={item.originalUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-block px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+                                >
+                                  View on {item.brand} site
+                                </a>
+                              </div>
+                            )}
                         </div>
                       </div>
                     ))}

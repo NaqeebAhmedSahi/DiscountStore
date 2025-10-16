@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useAppDispatch } from "../../../../lib/hooks/redux";
 import { addToCart } from "../../../../lib/store/cartSlice";
 import { showSuccessToast } from "../../../../lib/utils/toast";
@@ -238,9 +239,9 @@ export default function NewArrivals() {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <button className="px-8 py-4 bg-white border-2 border-indigo-600 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl">
+          <Link href="/products" className="px-8 py-4 bg-white border-2 border-indigo-600 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer">
             View All New Arrivals
-          </button>
+          </Link>
         </div>
       </div>
     </section>
