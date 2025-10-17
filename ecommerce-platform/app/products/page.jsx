@@ -41,6 +41,9 @@ function ProductsContent() {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 300]);
+  // Flags for product-level filters
+  const [filterNewArrival, setFilterNewArrival] = useState(!!searchParams.get('newArrival'));
+  const [filterTrending, setFilterTrending] = useState(!!searchParams.get('trending'));
   
   const productsPerPage = 8;
 
@@ -57,6 +60,12 @@ function ProductsContent() {
     
     loadStoreData();
   }, []);
+
+  // Keep filter flags in sync with URL search params (handles View All links / direct URL)
+  useEffect(() => {
+    setFilterNewArrival(!!searchParams.get('newArrival'));
+    setFilterTrending(!!searchParams.get('trending'));
+  }, [searchParams]);
 
   // Extract filter options from store data
   const categories = useMemo(() => {
@@ -134,6 +143,15 @@ function ProductsContent() {
         product.color && product.color.some(color => selectedColors.includes(color))
       );
     }
+
+    // Flag filters
+    if (filterNewArrival) {
+      result = result.filter(product => product.newArrival);
+    }
+
+    if (filterTrending) {
+      result = result.filter(product => product.trending);
+    }
     
     // Price range filter
     result = result.filter(product => 
@@ -159,7 +177,8 @@ function ProductsContent() {
     
     setFilteredProducts(result);
     setIsLoading(false);
-  }, [searchQuery, selectedCategories, selectedBrands, selectedSizes, selectedColors, priceRange, sortOption, products]);
+  }, [searchQuery, selectedCategories, selectedBrands, selectedSizes, selectedColors, priceRange, sortOption, products, filterNewArrival, filterTrending]);
+  
 
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -276,6 +295,42 @@ function ProductsContent() {
                 >
                   Clear All
                 </button>
+              </div>
+
+              {/* Product Flags */}
+              <div className="mb-6">
+                <h4 className="font-medium text-gray-900 mb-3">Product Flags</h4>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={filterNewArrival}
+                      onChange={() => {
+                        const next = !filterNewArrival;
+                        setFilterNewArrival(next);
+                        setCurrentPage(1);
+                        updateSearchParams({ newArrival: next ? '1' : '' });
+                      }}
+                      className="rounded border-gray-300 text-yellow-500 focus:ring-yellow-400"
+                    />
+                    <span className="ml-2 text-gray-700">New Arrivals</span>
+                  </label>
+
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={filterTrending}
+                      onChange={() => {
+                        const next = !filterTrending;
+                        setFilterTrending(next);
+                        setCurrentPage(1);
+                        updateSearchParams({ trending: next ? '1' : '' });
+                      }}
+                      className="rounded border-gray-300 text-yellow-500 focus:ring-yellow-400"
+                    />
+                    <span className="ml-2 text-gray-700">Trending Deals</span>
+                  </label>
+                </div>
               </div>
 
               {/* Category Filter */}

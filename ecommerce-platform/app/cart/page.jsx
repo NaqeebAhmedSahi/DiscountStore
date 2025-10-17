@@ -182,14 +182,14 @@ export default function CartPage() {
                                 </span>
                                 <button
                                   onClick={() => handleUpdateQuantity(item.cartItemId, item.quantity + 1)}
-                                  disabled={item.quantity >= item.maxQuantity}
+                                  disabled={item.quantity >= (item.maxQuantity || 10)}
                                   className="px-3 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-r-lg"
                                 >
                                   +
                                 </button>
                               </div>
                               <span className="text-xs text-gray-500">
-                                Max: {item.maxQuantity}
+                                Max: {item.maxQuantity || 10} {item.maxQuantity ? `· ${Math.max(0, (item.maxQuantity - item.quantity))} left` : ''}
                               </span>
                             </div>
 

@@ -88,6 +88,10 @@ export default function ProductDetailPage() {
         (product.colors[0].name || product.colors[0]) : 
         (product.color && product.color.length > 0 ? product.color[0] : 'Default'));
       
+      // Clamp quantity to available stock
+      const availableStock = (typeof product.stockQuantity === 'number') ? product.stockQuantity : (product.inStock ? 10 : 0);
+      const finalQuantity = Math.max(1, Math.min(quantity, availableStock));
+
       // Add to cart using Redux
       dispatch(addToCart({
         product: {
@@ -97,7 +101,7 @@ export default function ProductDetailPage() {
         },
         selectedSize: finalSize,
         selectedColor: finalColor,
-        quantity: quantity
+        quantity: finalQuantity
       }));
       
       // Show success message
@@ -345,11 +349,24 @@ export default function ProductDetailPage() {
                 </button>
                 <span className="px-4 py-3 font-medium min-w-12 text-center">{quantity}</span>
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => {
+                    const stock = typeof product.stockQuantity === 'number' ? product.stockQuantity : (product.inStock ? 10 : 0);
+                    setQuantity(q => Math.min(q + 1, stock));
+                  }}
                   className="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                  disabled={quantity >= (typeof product.stockQuantity === 'number' ? product.stockQuantity : (product.inStock ? 10 : 0))}
                 >
                   +
                 </button>
+              </div>
+
+              {/* Stock remaining info */}
+              <div className="text-sm text-gray-500 mt-2 sm:mt-0">
+                {product.stockQuantity ? (
+                  <span>Stock: {product.stockQuantity - quantity > 0 ? `${product.stockQuantity - quantity} left` : 'Last item'}</span>
+                ) : (
+                  <span>{product.inStock ? 'In Stock' : 'Out of Stock'}</span>
+                )}
               </div>
 
               {/* Add to Cart Button */}

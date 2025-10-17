@@ -323,8 +323,10 @@
         "Water Resistance": "No"
       },
       "sku": "NK-RS-2024-BLK",
-      "inStock": true,
-      "stockQuantity": 15,
+  "inStock": true,
+  "stockQuantity": 15,
+  "trending": true,
+  "newArrival": true,
       "colors": [
         { "name": "Black", "value": "#000000" },
         { "name": "White", "value": "#FFFFFF" },
@@ -346,8 +348,11 @@
       "rating": 4.8,
       "reviews": 89,
       "isNew": false,
-      "discount": 33
-      ,
+      "discount": 33,
+  "inStock": true,
+  "stockQuantity": 8,
+  "trending": false,
+  "newArrival": false,
       "originalUrl": "https://www.michaelkors.com/designer-handbag-MK-2024"
     },
     {
@@ -363,8 +368,11 @@
       "rating": 4.3,
       "reviews": 67,
       "isNew": true,
-      "discount": 25
-      ,
+      "discount": 25,
+  "inStock": true,
+  "stockQuantity": 12,
+  "trending": false,
+  "newArrival": true,
       "originalUrl": "https://www.casio.com/products/sports-watch-CA-2024"
     },
     {
@@ -380,8 +388,11 @@
       "rating": 4.6,
       "reviews": 156,
       "isNew": false,
-      "discount": 37
-      ,
+      "discount": 37,
+  "inStock": true,
+  "stockQuantity": 20,
+  "trending": true,
+  "newArrival": false,
       "originalUrl": "https://www.zara.com/us/en/summer-dress-ZR-2024"
     },
     {
@@ -397,8 +408,11 @@
       "rating": 4.2,
       "reviews": 203,
       "isNew": true,
-      "discount": 33
-      ,
+      "discount": 33,
+  "inStock": true,
+  "stockQuantity": 25,
+  "trending": false,
+  "newArrival": true,
       "originalUrl": "https://www2.hm.com/en_us/product-page/mens-casual-shirt-HM-2024"
     },
     {
@@ -415,7 +429,11 @@
       "reviews": 178,
       "isNew": false,
       "discount": 30,
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 18,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 7,
@@ -431,6 +449,10 @@
       "reviews": 234,
       "isNew": true,
       "discount": 25,
+  "inStock": true,
+  "stockQuantity": 10,
+  "trending": true,
+  "newArrival": true,
       "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
@@ -447,7 +469,11 @@
       "reviews": 92,
       "isNew": false,
       "discount": 33,
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 30,
+  "trending": true,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 9,
@@ -465,7 +491,11 @@
       "discount": 9,
       "features": ["A17 Pro", "USB‑C", "Titanium design"],
       "sku": "APL-IP15P-128",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 7,
+  "trending": false,
+  "newArrival": true,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 10,
@@ -483,7 +513,11 @@
       "discount": 8,
       "features": ["S Pen", "200MP camera", "Snapdragon for Galaxy"],
       "sku": "SMS-S24U-256",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 5,
+  "trending": true,
+  "newArrival": true,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 11,
@@ -501,7 +535,11 @@
       "discount": 12,
       "features": ["ANC", "30h battery", "Multipoint"],
       "sku": "SNY-WH1000XM5",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 14,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 12,
@@ -519,7 +557,11 @@
       "discount": 14,
       "features": ["Laser for hard floors", "Anti-tangle", "LCD screen"],
       "sku": "DYS-V12-DS",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 9,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 13,
@@ -537,7 +579,11 @@
       "discount": 11,
       "features": ["S9 SiP", "Double Tap", "Always‑On display"],
       "sku": "APL-WT-S9-41",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 11,
+  "trending": false,
+  "newArrival": true,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 14,
@@ -555,7 +601,11 @@
       "discount": 19,
       "features": ["Metal frame", "Polarized options", "Classic design"],
       "sku": "RBN-AVT-STD",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 22,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 15,
@@ -573,7 +623,11 @@
       "discount": 29,
       "features": ["Moisture transport", "Lightweight", "Anti-odor"],
       "sku": "UA-TECHTEE-BLK",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 40,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 16,
@@ -591,7 +645,11 @@
       "discount": 24,
       "features": ["HEPA filter", "PM1.0 sensor", "SmartThinQ"],
       "sku": "LG-AP-STND",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 6,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 17,
@@ -609,7 +667,11 @@
       "discount": 25,
       "features": ["Straight fit", "Durable denim"],
       "sku": "LEVIS-501-IND",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 28,
+  "trending": false,
+  "newArrival": false,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     },
     {
       "id": 18,
@@ -627,7 +689,11 @@
       "discount": 33,
       "features": ["Lightweight", "Breathable mesh"],
       "sku": "NK-KIDS-RUN",
-        "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
+  "inStock": true,
+  "stockQuantity": 35,
+  "trending": false,
+  "newArrival": true,
+      "originalUrl": "https://www.lululemon.com/p/yoga-pants-LM-2024"
     }
   ],
   "reviews": [

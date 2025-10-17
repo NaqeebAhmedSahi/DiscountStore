@@ -43,10 +43,17 @@ const cartSlice = createSlice({
       // Check if item already exists in cart
       const existingItem = state.items.find(item => item.cartItemId === cartItemId);
       
+      // Determine available stock and clamp
+      const availableStock = (product && typeof product.stockQuantity === 'number') ? product.stockQuantity : (product && product.maxQuantity) || 10;
+      const addQuantity = Math.max(1, Math.min(quantity, availableStock));
+
       if (existingItem) {
-        // Update quantity if item already exists
-        existingItem.quantity += quantity;
+        // Update quantity if item already exists, but don't exceed available stock
+        const newQty = Math.min(existingItem.quantity + addQuantity, availableStock);
+        existingItem.quantity = newQty;
         existingItem.totalPrice = parseFloat(existingItem.price) * existingItem.quantity;
+        existingItem.inStock = newQty > 0;
+        existingItem.maxQuantity = availableStock;
       } else {
         // Add new item to cart
         const newItem = {
@@ -61,10 +68,10 @@ const cartSlice = createSlice({
           originalUrl: product.originalUrl || null,
           selectedSize: selectedSize || 'One Size',
           selectedColor: selectedColor || 'Default',
-          quantity,
-          totalPrice: (parseFloat(product.price) || 0) * quantity,
-          inStock: product.inStock !== false,
-          maxQuantity: product.stockQuantity || 10,
+          quantity: addQuantity,
+          totalPrice: (parseFloat(product.price) || 0) * addQuantity,
+          inStock: (product.inStock !== false) && (addQuantity > 0),
+          maxQuantity: availableStock,
           discount: product.discount || 0,
           sku: product.sku || `SKU-${product.id}`,
         };
@@ -94,7 +101,8 @@ const cartSlice = createSlice({
           state.items = state.items.filter(item => item.cartItemId !== cartItemId);
         } else {
           // Update quantity and total price
-          item.quantity = Math.min(quantity, item.maxQuantity);
+          const clamped = Math.min(quantity, item.maxQuantity || 10);
+          item.quantity = clamped;
           item.totalPrice = parseFloat(item.price) * item.quantity;
         }
         
